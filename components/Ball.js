@@ -1,4 +1,4 @@
-import SoundsService from "./../services/SoundsService.js";
+import SoundsService from './../services/SoundsService.js';
 
 const INITIAL_VELOCITY = 0.025;
 const VELOCITY_INCREASE = 0.000001;
@@ -13,19 +13,19 @@ export default class Ball {
     }
 
     get x() {
-        return parseFloat(getComputedStyle(this.element).getPropertyValue("--x"));
+        return parseFloat(getComputedStyle(this.element).getPropertyValue('--x'));
     }
 
     set x(value) {
-        this.element.style.setProperty("--x", value);
+        this.element.style.setProperty('--x', value);
     }
 
     get y() {
-        return parseFloat(getComputedStyle(this.element).getPropertyValue("--y"));
+        return parseFloat(getComputedStyle(this.element).getPropertyValue('--y'));
     }
 
     set y(value) {
-        this.element.style.setProperty("--y", value);
+        this.element.style.setProperty('--y', value);
     }
 
     get rect() {
@@ -53,7 +53,7 @@ export default class Ball {
             this.direction = {
                 x: Math.cos(heading),
                 y: Math.sin(heading)
-            }
+            };
         }
     }
 
@@ -87,7 +87,7 @@ export default class Ball {
 
     handleObjectsCollision(objects) {
         if (objects.some(object => isCollision(object, this.rect))) {
-            this.bounceX()
+            this.bounceX();
             this.playPaddleCollisionSound();
         }
     }
@@ -123,5 +123,5 @@ function isCollision(rectA, rectB) {
         rectA.right >= rectB.left &&
         rectA.top <= rectB.bottom &&
         rectA.bottom >= rectB.top
-    )
+    );
 }

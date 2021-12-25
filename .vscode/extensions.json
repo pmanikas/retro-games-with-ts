@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "ritwickdey.liveserver",
+    "editorconfig.editorconfig",
+    "stylelint.vscode-stylelint"
+  ]
+}

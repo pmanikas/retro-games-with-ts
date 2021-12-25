@@ -12,24 +12,24 @@
 :root {
     --hue: 200;
     --saturation: 50%;
-    --foreground-color: hsl(var(--hue), var(--saturation), 75%);
-    --background-color: hsl(var(--hue), var(--saturation), 20%);
+    --foreground-color: hsl(var(--hue) var(--saturation) 75%);
+    --background-color: hsl(var(--hue) var(--saturation) 20%);
 }
 
 body {
     margin: 0;
     background-color: var(--background-color);
     overflow: hidden;
-    font-family: 'Press Start 2P', cursive;
+    font-family: "Press Start 2P", cursive;
     font-size: 18px;
 }
 
 button {
-    font-family: 'Press Start 2P', cursive;
+    font-family: "Press Start 2P", cursive;
 }
 
 input {
-    font-family: 'Press Start 2P', cursive;
+    font-family: "Press Start 2P", cursive;
 }
 
 .game-title {
@@ -220,6 +220,7 @@ input {
     0% {
         transform: translateX(-100%);
     }
+
     100% {
         transform: translateX(0);
     }
