@@ -2,11 +2,11 @@ const DEFAULT_SFX_VOLUME = 0.6;
 const DEFAULT_MUSIC_VOLUME = 0.4;
 
 const SOUNDS_COLLECTION = {
-    intro: "/assets/sounds/8bit-dark-underground-funk.mp3",
-    ballHitsPaddle: "/assets/sounds/ball-hits-paddle.mp3",
-    ballHitsWall: "/assets/sounds/ball-hits-wall.mp3",
-    gameOver: "/assets/sounds/game-over.ogg"
-}
+    intro: './assets/sounds/8bit-dark-underground-funk.mp3',
+    ballHitsPaddle: './assets/sounds/ball-hits-paddle.mp3',
+    ballHitsWall: './assets/sounds/ball-hits-wall.mp3',
+    gameOver: './assets/sounds/game-over.ogg'
+};
 
 export default class SoundsService {
     selectedMusic = null;
@@ -32,7 +32,7 @@ export default class SoundsService {
         this.selectedMusic.play();
     }
     
-    playSFX(id, options = {}) {
+    playSFX(id) {
         if(!id || !this.collection) return;
         const url = this.collection[id];
         if(!url) return;
@@ -77,9 +77,9 @@ export default class SoundsService {
 
     devErrorHandler(message, type = 'warn') {
         const messages = {
-            NO_ACTIVE_MUSIC: "No active music",
-            INVALID_VOLUME_VALUE: "Invalid volume value",
-        }
+            NO_ACTIVE_MUSIC: 'No active music',
+            INVALID_VOLUME_VALUE: 'Invalid volume value',
+        };
 
         console[type](messages[message]);
     }
