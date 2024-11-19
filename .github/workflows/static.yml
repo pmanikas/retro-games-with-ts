@@ -3,15 +3,13 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main  # Set this to your default branch
+      - main
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment
 concurrency:
   group: pages
   cancel-in-progress: true
@@ -38,13 +36,20 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Debug directory structure
+        run: |
+          ls -la
+          ls -la dist || echo "dist directory not found"
+          ls -la dist/games || echo "dist/games directory not found"
+          ls -la dist/games/pong || echo "dist/games/pong directory not found"
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist/games/pong  # Update this if your build output directory is different
+          path: './dist/games/pong'  # Using relative path with explicit ./
 
       - name: Deploy to GitHub Pages
         id: deployment
