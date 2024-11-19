@@ -43,7 +43,6 @@ export default class NotificationsService {
         return `
         <div class="notification ${notification.type}" id="${notification.id}">
             <div class="notification-header">
-                <icon>&#128276;</icon>
                 <button class="notification-close-button" notification-id="${notification.id}">X</button>
             </div>
             <div class="notification-body">${notification.text}</div>
