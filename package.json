@@ -4,18 +4,19 @@
   "description": "This is a simple vanilla js pong game",
   "main": "index.js",
   "scripts": {
-    "start": "live-server src",
-    "lint": "eslint 'src' && stylelint '**/*.css'"
+    "build": "node scripts/build.js",
+    "start:pong": "vite games/pong -c vite.config.js",
+    "try:pong": "live-server dist/pong",
+    "lint": "eslint 'games' && stylelint '**/*.css'"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pmanikas/vanilla-js-pong.git"
+    "url": "https://github.com/pmanikas/retro-games"
   },
   "keywords": [
-    "8-bit",
-    "pong",
     "retro",
     "js-games",
+    "ts-games",
     "web-gaming",
     "arcade"
   ],
@@ -25,14 +26,14 @@
     "url": "https://pantelismanikas.com"
   },
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/pmanikas/vanilla-js-pong/issues"
-  },
-  "homepage": "https://github.com/pmanikas/vanilla-js-pong#readme",
+  "homepage": "https://github.com/pmanikas/retro-games",
   "devDependencies": {
     "eslint": "^8.5.0",
     "live-server": "^1.2.1",
     "stylelint": "^14.2.0",
-    "stylelint-config-standard": "^24.0.0"
-  }
+    "stylelint-config-standard": "^24.0.0",
+    "vite": "^5.4.11",
+    "vite-plugin-static-copy": "^2.1.0"
+  },
+  "type": "module"
 }
