@@ -1,17 +1,15 @@
 {
-  "name": "vanilla-js-pong-game",
+  "name": "retro-games-with-ts",
   "version": "1.0.0",
-  "description": "This is a simple vanilla js pong game",
-  "main": "index.js",
+  "description": "A collection of retro games built with TypeScript and JavaScript.",
   "scripts": {
     "build": "node scripts/build.js",
     "start:pong": "vite games/pong -c vite.config.js",
-    "try:pong": "live-server dist/pong",
     "lint": "eslint 'games' && stylelint '**/*.css'"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/pmanikas/retro-games"
+    "url": "https://github.com/pmanikas/retro-games-with-ts"
   },
   "keywords": [
     "retro",
@@ -23,10 +21,11 @@
   "author": {
     "name": "Pantelis Manikas",
     "email": "hello@pantelismanikas.com",
-    "url": "https://pantelismanikas.com"
+    "url": "https://pantelismanikas.com",
+    "github": "https://github.com/pmanikas"
   },
   "license": "MIT",
-  "homepage": "https://github.com/pmanikas/retro-games",
+  "homepage": "https://github.com/pmanikas/retro-games-with-ts",
   "devDependencies": {
     "eslint": "^8.5.0",
     "live-server": "^1.2.1",
