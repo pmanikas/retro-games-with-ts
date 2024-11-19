@@ -2,9 +2,7 @@ import { defineConfig } from 'vite';
 import path, { dirname } from 'path';
 
 export default defineConfig({
-    plugins: [
-
-    ],
+    plugins: [],
     resolve: {
         alias: {},
     },
@@ -15,7 +13,8 @@ export default defineConfig({
     },
     build: {
         copyPublicDir: true,
-        outDir: path.resolve(dirname(''), `dist/games/${__dirname.split('/').reverse()[0]}`),
+        base: path.resolve(dirname(''), 'dist/games'),
+        outDir: path.resolve('', `dist/games/${__dirname.split('/').pop()}`),
         assetsDir: '',
     },
 });
