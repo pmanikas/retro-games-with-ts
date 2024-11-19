@@ -1,11 +1,9 @@
-name: Deploy static content to Pages
+name: Deploy to GitHub Pages
 
 on:
-  # Runs on pushes targeting the default branch
   push:
-    branches: ["main"]
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+    branches:
+      - main  # Set this to your default branch
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
@@ -13,15 +11,13 @@ permissions:
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+# Allow only one concurrent deployment
 concurrency:
-  group: "pages"
-  cancel-in-progress: false
+  group: pages
+  cancel-in-progress: true
 
 jobs:
-  # Single deploy job since we're just deploying
-  deploy:
+  build-and-deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -29,26 +25,27 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      
-      - uses: actions/setup-node@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: '18.x'
-      
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-      
-      - name: Install Dependencies
-        run: npm install
-      
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
       - name: Build
         run: npm run build
-      
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload entire repository
-          path: './dist/games/pong'
-      
+          path: dist  # Update this if your build output directory is different
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
