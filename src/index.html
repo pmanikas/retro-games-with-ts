@@ -12,57 +12,63 @@
     </head>
 
     <body>
-        <page class="screen" data-screen="start">
-            <h1 class="game-title">PONG GAME</h1>
-            <h2>MAIN MENU</h2>
-            <nav class='nav'>
-                <button class="button" data-button data-button-start>Start Game</button>
-                <button class="button" data-button data-button-options>Options</button>
-            </nav>
-        </page>
+        <game-loader class="game-loader" data-game-loader>
+            <div class="ball"></div>
+        </game-loader>
 
-        <page class="screen" data-screen="options">
-            <h1 class="game-title">PONG GAME</h1>
-            <h2>OPTIONS</h2>
-            <nav class='nav'>
-                <div class="form-group">
-                    <label for="set-wins-input" class="label">Set game score</label>
-                    <input class="form-control" for="set-wins-input" type="text" placeholder="Select score to set the game" data-input-set-game-score>
+        <div class="game-container" data-game-container>
+            <page class="screen" data-screen="start">
+                <h1 class="game-title">PONG GAME</h1>
+                <h2>MAIN MENU</h2>
+                <nav class='nav'>
+                    <button class="button" data-button data-button-start>Start Game</button>
+                    <button class="button" data-button data-button-options>Options</button>
+                </nav>
+            </page>
+    
+            <page class="screen" data-screen="options">
+                <h1 class="game-title">PONG GAME</h1>
+                <h2>OPTIONS</h2>
+                <nav class='nav'>
+                    <div class="form-group">
+                        <label for="set-wins-input" class="label">Set game score</label>
+                        <input class="form-control" for="set-wins-input" type="text" placeholder="Select score to set the game" data-input-set-game-score>
+                    </div>
+    
+                    <button class="button" data-button data-button-save-options>Save</button>
+                    <button class="button" data-button data-button-exit>Exit to Main Menu</button>
+                </nav>
+            </page>
+    
+            <page class="screen" data-screen="pause">
+                <h1 class="game-title">PONG GAME</h1>
+                <h2>PAUSED</h2>
+                <nav class='nav'>
+                    <button class="button" data-button data-button-resume>Resume</button>
+                    <button class="button" data-button data-button-restart>Restart Game</button>
+                    <button class="button" data-button data-button-exit>Exit to Main Menu</button>
+                </nav>
+            </page>
+    
+            <page class="screen" data-screen="set">
+                <h1 class="game-title">PONG GAME</h1>
+                <h2 data-set-results-text>?</h2>
+                <nav class="nav">
+                    <button class="button" data-button data-button-restart>Play Again</button>
+                    <button class="button" data-button data-button-exit>Exit to Main Menu</button>
+                </nav>
+            </page>
+    
+            <game class="the-game" data-screen="the-game">
+                <div class="score">
+                    <div data-score="human">0</div>
+                    <div data-score="bot">0</div>
                 </div>
-
-                <button class="button" data-button data-button-save-options>Save</button>
-                <button class="button" data-button data-button-exit>Exit to Main Menu</button>
-            </nav>
-        </page>
-
-        <page class="screen" data-screen="pause">
-            <h1 class="game-title">PONG GAME</h1>
-            <h2>PAUSED</h2>
-            <nav class='nav'>
-                <button class="button" data-button data-button-resume>Resume</button>
-                <button class="button" data-button data-button-restart>Restart Game</button>
-                <button class="button" data-button data-button-exit>Exit to Main Menu</button>
-            </nav>
-        </page>
-
-        <page class="screen" data-screen="set">
-            <h1 class="game-title">PONG GAME</h1>
-            <h2 data-set-results-text>?</h2>
-            <nav class="nav">
-                <button class="button" data-button data-button-restart>Play Again</button>
-                <button class="button" data-button data-button-exit>Exit to Main Menu</button>
-            </nav>
-        </page>
-
-        <game>
-            <div class="score">
-                <div data-score="human">0</div>
-                <div data-score="bot">0</div>
-            </div>
-            <div class="ball" data-ball></div>
-            <div class="paddle left" data-paddle="human"></div>
-            <div class="paddle right" data-paddle="bot"></div>
-        </game>
+                <div class="ball" data-ball></div>
+                <div class="paddle left" data-paddle="human"></div>
+                <div class="paddle right" data-paddle="bot"></div>
+            </game>
+        </div>
 
         <notifications class="notifications" data-notifications-area></notifications>
 

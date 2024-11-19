@@ -8,6 +8,7 @@ import {
     getFocusedIndexFromNodes,
     setElementText,
     setElementValue,
+    setAndHideScreens
 } from './../utils/dom-manipulation.js';
 
 const SET_GAME_SCORE = 5;
@@ -18,11 +19,13 @@ const gameResultTitleElem = document.querySelector('[data-set-results-text]');
 const humanPaddleElem = document.querySelector('[data-paddle=human]');
 const humanScoreElem = document.querySelector('[data-score=human]');
 const notificationsElem = document.querySelector('[data-notifications-area]');
+const setGameScoreElem = document.querySelector('[data-input-set-game-score]');
+
 const optionsScreenElem = document.querySelector('[data-screen=options]');
 const pauseScreenElem = document.querySelector('[data-screen=pause]');
-const setGameScoreElem = document.querySelector('[data-input-set-game-score]');
 const setScreenElem = document.querySelector('[data-screen=set]');
 const startScreenElem = document.querySelector('[data-screen=start]');
+
 
 export default class Game {
     lastTime = 0;
@@ -31,6 +34,7 @@ export default class Game {
     setGameScore = localStorage.getItem('setGameScore') || SET_GAME_SCORE;
 
     constructor() {
+        setAndHideScreens([optionsScreenElem, pauseScreenElem, setScreenElem, startScreenElem]);
         this.notificationsService = new NotificationsService(notificationsElem);
         this.soundsService = new SoundsService();
         this.ball = new Ball(document.querySelector('[data-ball]'));

@@ -32,6 +32,45 @@ input {
     font-family: "Press Start 2P", cursive;
 }
 
+.ball {
+    --x: 50;
+    --y: 50;
+
+    position: absolute;
+    top: calc(var(--y) * 1vh);
+    left: calc(var(--x) * 1vw);
+    width: 2.5vh;
+    height: 2.5vh;
+    background-color: var(--foreground-color);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.game-loader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    opacity: 1;
+    transition: opacity 1s ease-in-out;
+}
+
+.game-loader .ball {
+    position: absolute;
+    top: 50vh;
+    left: 0;
+    animation-name: bounce-x;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    animation-duration: 5s;
+}
+
+.game-container {
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
 .game-title {
     margin: 0;
     font-size: 90px;
@@ -39,12 +78,6 @@ input {
 }
 
 .screen {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 10;
-    width: 100%;
-    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -52,14 +85,7 @@ input {
     gap: 3.5vh;
     color: var(--foreground-color);
     background: var(--background-color);
-    opacity: 0;
-    pointer-events: none;
     transition: opacity 0.3s ease-out;
-}
-
-.screen.active {
-    opacity: 1;
-    pointer-events: all;
 }
 
 .button {
@@ -99,20 +125,6 @@ input {
 
 .paddle.right {
     right: 1vw;
-}
-
-.ball {
-    --x: 50;
-    --y: 50;
-
-    position: absolute;
-    top: calc(var(--y) * 1vh);
-    left: calc(var(--x) * 1vw);
-    width: 2.5vh;
-    height: 2.5vh;
-    background-color: var(--foreground-color);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
 }
 
 .score {
@@ -223,5 +235,15 @@ input {
 
     100% {
         transform: translateX(0);
+    }
+}
+
+@keyframes bounce-x {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(100vw);
     }
 }

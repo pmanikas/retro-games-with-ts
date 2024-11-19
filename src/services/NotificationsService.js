@@ -51,7 +51,7 @@ export default class NotificationsService {
                 <span class="notification-progress" style="animation-duration: ${DURATION}ms"></span>
             </div>
         </div>
-        `
+        `;
     }
 
     initCancelButton(notification) {

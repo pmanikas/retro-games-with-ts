@@ -46,7 +46,7 @@ export default class Ball {
     setCorrectDirection() {
         while (
             Math.abs(this.direction.x) <= 0.2 ||
-            Math.abs(this.direction.x) >= 0.9
+            Math.abs(this.direction.x) >= 0.8
         ) {
             const heading = randomNumberBetween(0, 2 * Math.PI);
 
@@ -86,14 +86,27 @@ export default class Ball {
     }
 
     handleObjectsCollision(objects) {
-        if (objects.some(object => isCollision(object, this.rect))) {
-            this.bounceX();
-            this.playPaddleCollisionSound();
-        }
+        objects.some(object => {
+            if(isCollision(object, this.rect)) {
+                console.log(this.direction.y);
+                this.bounceX(object, this.rect);
+                this.diverseY(object, this.rect);
+                this.playPaddleCollisionSound();
+            }
+        });
     }
 
     bounceX() {
         this.direction.x *= -1;
+    }
+
+    diverseY(object, rect) {
+        const hitPosition = Math.abs((rect.y + (rect.height / 2))) - Math.abs((object.y + (object.height / 2)));
+        const boundary = object.height / 2;
+
+        const newDirection = Math.abs(hitPosition / boundary);
+
+        this.direction.y = Math.sign(this.direction.y) * newDirection;
     }
 
     bounceY() {
