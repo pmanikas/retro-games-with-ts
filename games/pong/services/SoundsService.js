@@ -2,10 +2,10 @@ const DEFAULT_SFX_VOLUME = 0.6;
 const DEFAULT_MUSIC_VOLUME = 0.4;
 
 const SOUNDS_COLLECTION = {
-    intro: './sounds/8bit-dark-underground-funk.mp3',
-    ballHitsPaddle: './sounds/ball-hits-paddle.mp3',
-    ballHitsWall: './sounds/ball-hits-wall.mp3',
-    gameOver: './sounds/game-over.ogg'
+    intro: './assets/sounds/8bit-dark-underground-funk.mp3',
+    ballHitsPaddle: './assets/sounds/ball-hits-paddle.mp3',
+    ballHitsWall: './assets/sounds/ball-hits-wall.mp3',
+    gameOver: './assets/sounds/game-over.ogg'
 };
 
 export default class SoundsService {
