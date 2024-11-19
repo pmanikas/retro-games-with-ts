@@ -46,7 +46,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '/dist/games'
+          path: './dist/games/pong'
       
       - name: Deploy to GitHub Pages
         id: deployment
