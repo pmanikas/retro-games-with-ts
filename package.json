@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "A collection of retro games built with TypeScript and JavaScript.",
   "scripts": {
-    "start": "live-server --port=8080 --entry-file=games/index.html",
-    "lint": "eslint 'games' && stylelint '**/*.css'"
+    "start": "node scripts/serve.cjs",
+    "lint": "eslint 'games' && stylelint '**/*.css'",
+    "build": "node scripts/build.cjs"
   },
   "repository": {
     "type": "git",
