@@ -4,20 +4,22 @@ export default class Projectile {
     width;
     height;
 
-    constructor(position) {
+    constructor({ position, velocity, color }) {
         this.position = { x: position.x, y: position.y };
-        this.velocity = { x: 0, y: -10 };
+        this.velocity = velocity || { x: 0, y: -10 };
+        this.color = color || 'white';
 
         this.width = 3;
         this.height = 10;
     }
 
     draw(ctx) {
-        ctx.fillStyle = 'white';
+        ctx.fillStyle = this.color;
         ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
     }
 
-    update() {
+    update(ctx) {
+        this.draw(ctx);
         this.position.y += this.velocity.y;
     }
 

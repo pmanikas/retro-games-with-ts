@@ -6,6 +6,8 @@ export default class MusicService {
         nextLevel: './assets/sounds/next-level.mp3',
         gui: './assets/sounds/gui.wav',
         start: './assets/sounds/start.wav',
+        playerHit: './assets/sounds/player-hit.wav',
+        gameOver: './assets/sounds/game-over.wav',
 
     };
 
@@ -16,6 +18,8 @@ export default class MusicService {
         nextLevel: new Audio(this.tracks.nextLevel),
         gui: new Audio(this.tracks.gui),
         start: new Audio(this.tracks.start),
+        playerHit: new Audio(this.tracks.playerHit),
+        gameOver: new Audio(this.tracks.gameOver),
     };
 
     musicVolume = 0.5;

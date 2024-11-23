@@ -7,7 +7,7 @@ export default class Particle {
     constructor(position) {
         this.position = position || this.defaultPosition;
         this.velocity = { x: 0, y: getRandomFromRange(1, 2) };
-        this.radius = 1;
+        this.radius = getRandomFromRange(1, 2);
     }
 
     draw(ctx) {

@@ -15,9 +15,9 @@ const musicService = new MusicService();
 const player = new Player();
 const enemies = [];
 const projectiles = [];
+const enemyProjectiles = [];
 const particles = [];
 
-let lastTime = 0;
 let ctx = null;
 
 const els = {
@@ -35,6 +35,13 @@ const els = {
     optionsButton: document.querySelector('[data-options-button]'),
     musicSlider: document.querySelector('[data-music-volume-slider]'),
     sfxSlider: document.querySelector('[data-sfx-volume-slider]'),
+    gameOverGUI: document.querySelector('[data-game-over-GUI]'),
+    playAgainButton: document.querySelector('[data-play-again-button]'),
+};
+
+const times = {
+    particles: 0,
+    enemiesFire: 0,
 };
 
 const state = {
@@ -142,6 +149,13 @@ function clickHandler(e) {
         musicService.play({ channelType: 'gui' });
     }
 
+    else if(e.target === els.playAgainButton) {
+        els.gameOverGUI?.classList.add('hidden');
+        els.topGUI?.classList.remove('hidden');
+        state.currentState = 'playing';
+        musicService.play({ channelType: 'gui' });
+        startGame();
+    }
 }
 
 function updateScore(value) {
@@ -150,7 +164,17 @@ function updateScore(value) {
 }
 
 function fire() {
-    projectiles.push(new Projectile({ x: player.position.x + (player.width / 2), y: player.position.y }));
+    const position = { x: player.position.x + (player.width / 2), y: player.position.y };
+    const velocity = { x: 0, y: -10 };
+    projectiles.push(new Projectile({ position, velocity }));
+    musicService.play({ channelType: 'laser' });
+}
+
+function enemyFire(enemy) {
+    if(!enemy) return;
+    const position = { x: enemy.position.x + (enemy.width / 2), y: enemy.position.y + enemy.height };
+    const velocity = { x: 0, y: 10 };
+    enemyProjectiles.push(new Projectile({ position, velocity, color: 'lightgreen' }));
     musicService.play({ channelType: 'laser' });
 }
 
@@ -168,14 +192,27 @@ function animate(time) {
         particle.update(ctx);
     });
 
-    if(time - lastTime >= 30) {
-        lastTime = time;
+    if(time - times.particles >= 30) {
+        times.particles = time;
         particles.push(new Particle());
     }
 
     if(state.currentState !== 'playing') return;
 
     player.update(ctx);
+
+    // decide a random enemy index every 3 seconds to fire
+    if(time - times.enemiesFire >= 2000) {
+        console.log('fire');
+        const randomIndex = Math.floor(Math.random() * enemies.length);
+        enemyFire(enemies[randomIndex]);
+        times.enemiesFire = time;
+    }
+
+    console.log(enemyProjectiles.length);
+
+
+
 
     enemies.forEach(enemy => {
         enemy.update(ctx);
@@ -192,9 +229,12 @@ function animate(time) {
 
     projectiles.forEach((projectile, i) => {
         if(projectile.position.y < 0) return projectiles.splice(i, 1);
+        projectile.update(ctx);
+    });
 
-        projectile.update();
-        projectile.draw(ctx);
+    enemyProjectiles.forEach((projectile, i) => {
+        if(projectile.position.y > window.innerHeight) return enemyProjectiles.splice(i, 1);
+        projectile.update(ctx);
     });
 
     if(keys.fire.isPressed) {
@@ -224,9 +264,27 @@ function animate(time) {
         });
     });
 
+    // check for player collision
+    enemyProjectiles.forEach((projectile, i) => {
+        if(collides(player, projectile)) {
+            enemyProjectiles.splice(i, 1);
+            state.lives -= 1;
+            els.lives.textContent = state.lives;
+            musicService.play({ channelType: 'playerHit' });
+            if(state.lives <= 0) gameOverHandler();
+        }
+    });
+
     if(player.top <= 0) {
         startLevel(state.currentLevel + 1);
     }
+}
+
+function gameOverHandler() {
+    state.currentState = 'gameover';
+    els.topGUI?.classList.add('hidden');
+    els.gameOverGUI?.classList.remove('hidden');
+    musicService.play({ channelType: 'gameOver' });
 }
 
 function setCanvasSize() {
