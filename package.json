@@ -1,36 +1,36 @@
 {
-  "name": "retro-games-with-ts",
-  "version": "1.0.0",
-  "description": "A collection of retro games built with TypeScript and JavaScript.",
-  "scripts": {
-    "start": "node scripts/serve.cjs",
-    "lint": "eslint 'games' && stylelint '**/*.css'",
-    "build": "node scripts/build.cjs"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/pmanikas/retro-games-with-ts"
-  },
-  "keywords": [
-    "retro",
-    "js-games",
-    "ts-games",
-    "web-gaming",
-    "arcade"
-  ],
-  "author": {
-    "name": "Pantelis Manikas",
-    "email": "hello@pantelismanikas.com",
-    "url": "https://pantelismanikas.com",
-    "github": "https://github.com/pmanikas"
-  },
-  "license": "MIT",
-  "homepage": "https://github.com/pmanikas/retro-games-with-ts",
-  "devDependencies": {
-    "eslint": "^8.5.0",
-    "live-server": "^1.2.1",
-    "stylelint": "^14.2.0",
-    "stylelint-config-standard": "^24.0.0"
-  },
-  "type": "module"
+    "name": "retro-games-with-js-ts",
+    "version": "1.0.0",
+    "description": "A collection of retro games built with TypeScript and JavaScript.",
+    "scripts": {
+        "start": "node scripts/serve.cjs",
+        "lint": "eslint 'games' && stylelint '**/*.css'",
+        "build": "node scripts/build.cjs"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/pmanikas/retro-games-with-ts"
+    },
+    "keywords": [
+        "retro",
+        "js-games",
+        "ts-games",
+        "web-gaming",
+        "arcade"
+    ],
+    "author": {
+        "name": "Pantelis Manikas",
+        "email": "hello@pantelismanikas.com",
+        "url": "https://pantelismanikas.com",
+        "github": "https://github.com/pmanikas"
+    },
+    "license": "MIT",
+    "homepage": "https://github.com/pmanikas/retro-games-with-ts",
+    "devDependencies": {
+        "eslint": "^8.5.0",
+        "live-server": "^1.2.1",
+        "stylelint": "^14.2.0",
+        "stylelint-config-standard": "^24.0.0"
+    },
+    "type": "module"
 }
