@@ -1,14 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Space Invaders Game</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Space Invaders</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>SPACE INVADERS</h1>
-    <canvas data-canvas></canvas>
-    <script type="module" src="script.js"></script>
+    <div class="wrapper">
+        <div class="top-gui hidden" data-top-GUI>
+            <div class="score">Score: <span data-score>0</span></div>
+            <div class="lives">Lives: <span data-lives>3</span></div>
+        </div>
+        <canvas data-canvas></canvas>
+        <div class="start-gui main-gui" data-start-GUI>
+            <div>
+                <h1>Space Invaders</h1>
+                <button class="button" data-start-button>Start</button>
+                <br>
+                <button class="button" data-options-button>Options</button>
+            </div>
+        </div>
+        <div class="pause-gui main-gui hidden" data-pause-GUI>
+            <div>
+                <h1>Paused</h1>
+                <button class="button" data-resume-button>Resume</button>
+                <br>
+                <button class="button" data-exit-button>Exit</button>
+            </div>
+        </div>
+        <div class="options-gui main-gui hidden" data-options-GUI>
+            <div>
+                <h1>Options</h1>
+                <!-- volume check -->
+                 <h2>Volume</h2>
+                <div class="volume-control">
+                    <label for="music-volume">Music</label>
+                    <input class="slider" data-music-volume-slider type="range" id="music-volume" name="music-volume" min="0" max="1" step="0.1" value="0.5">
+                </div>
+                <br>
+                <div class="volume-control">
+                    <label for="sfx-volume">SFX</label>
+                    <input class="slider" data-sfx-volume-slider type="range" id="sfx-volume" name="sfx-volume" min="0" max="1" step="0.1" value="0.5">
+                </div>
+                <button class="button" data-back-button>Back</button>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="main.js"></script>
 </body>
 </html>

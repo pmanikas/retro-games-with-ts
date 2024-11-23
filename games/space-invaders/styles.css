@@ -1,5 +1,4 @@
 /* RESET */
-
 *,
 *::before,
 *::after {
@@ -9,7 +8,77 @@
 body {
     margin: 0;
     padding: 0;
+}
+
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+button:focus {
+    outline: none;
+}
+
+/* VARIABLES */
+:root {
+    --base-spacing: 1rem;
+    --text-color: #fff;
+}
+
+/* UTILITIES */
+.hidden {
+    display: none !important;
+}
+
+/* MAIN */
+.wrapper {
     font-family: "Press Start 2P", cursive;
-    background-color: #000;
-    color: #fff;
+}
+
+.top-gui {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: var(--base-spacing);
+    color: var(--text-color);
+}
+
+.main-gui {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    color: var(--text-color);
+    text-align: center;
+}
+
+.button {
+    padding: var(--base-spacing);
+    margin-top: var(--base-spacing);
+    font-family: "Press Start 2P", cursive;
+    font-size: 1rem;
+    color: var(--text-color);
+    border: 2px solid var(--text-color);
+}
+
+.button:hover,
+.button:focus,
+.button:active {
+    background-color: var(--text-color);
+    color: #000;
+}
+
+.slider-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: var(--base-spacing);
 }
