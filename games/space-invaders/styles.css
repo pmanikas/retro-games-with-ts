@@ -112,6 +112,11 @@ button:focus {
     justify-content: center;
     align-items: center;
     margin-top: var(--base-spacing);
+    opacity: 0.2;
+}
+
+.coffee-container:hover {
+    opacity: 1;
 }
 
 .credits-text {
