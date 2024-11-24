@@ -1,22 +1,14 @@
-const DEFAULT_STORAGE_TYPE = 'local';
-
-const types = {
-    local: 'localStorage',
-    session: 'sessionStorage',
+export default {
+    get(key, type = 'localStorage') {
+        return JSON.parse(window[type].getItem(key));
+    },
+    save(key, state, type = 'localStorage') {
+        window[type].setItem(key, JSON.stringify(state));
+    },
+    delete(key, type = 'localStorage') {
+        window[type].removeItem(key);
+    },
+    clear(type = 'localStorage') {
+        window[type].clear();
+    },
 };
-
-export function saveToLocalStorage(key, value, type = DEFAULT_STORAGE_TYPE) {
-    types[type].setItem(key, JSON.stringify(value));
-}
-
-export function getFromLocalStorage(key, type = DEFAULT_STORAGE_TYPE) {
-    return JSON.parse(types[type].getItem(key));
-}
-
-export function removeFromLocalStorage(key, type = DEFAULT_STORAGE_TYPE) {
-    types[type].removeItem(key);
-}
-
-export function clearLocalStorage(type) {
-    types[type].clear();
-}

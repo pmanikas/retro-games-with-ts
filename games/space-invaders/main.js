@@ -6,6 +6,7 @@ import LEVELS from './config/levels.js';
 import { collides } from './utilities/collision.js';
 import {focusNext, focusPrevious } from './utilities/dom.js';
 import { getRandomFromRange } from './utilities/numbers.js';
+import local from './utilities/browser-storage.js';
 
 // SERVICES
 import MusicService from './services/MusicService.js';
@@ -32,6 +33,8 @@ const els = {
     canvas: document.querySelector('[data-canvas]'),
     score: document.querySelector('[data-score]'),
     lives: document.querySelector('[data-lives]'),
+    highscore: document.querySelector('[data-highscore]'),
+    latestScore: document.querySelector('[data-latest-score]'),
     musicSlider: document.querySelector('[data-music-volume-slider]'),
     sfxSlider: document.querySelector('[data-sfx-volume-slider]'),
 };
@@ -165,6 +168,7 @@ function clickHandler(e) {
         'data-play-again-button': startHandler,
         'data-credits-button': creditsHandler,
         'data-highscore-button': highscoreHandler,
+        'data-clear-score-button': clearScores,
     };
 
     const handler = Object.entries(buttonHandlers)
@@ -174,10 +178,26 @@ function clickHandler(e) {
     else console.warn('Unhandled button click:', e.target);
 }
 
-
 function updateScore(value) {
     state.score += value;
-    els.score.textContent = state.score;
+
+    const score = state.score;
+    els.score.textContent = score;
+    local.save('latest-score', score);
+    const currentHighscore = local.get('highscore') || 0;
+    if(score > currentHighscore) {
+        local.save('highscore', score);
+        els.highscore.textContent = score;
+    }
+    els.latestScore.textContent = score;
+}
+
+function clearScores() {
+    local.delete('highscore');
+    local.delete('latest-score');
+    els.highscore.textContent = 0;
+    els.latestScore.textContent = 0;
+    musicService.play({ channelType: 'laser' });
 }
 
 function fire() {
@@ -340,6 +360,13 @@ function startGame() {
     startLevel(state.currentLevel);
 }
 
+function loadScores() {
+    const highscore = local.get('highscore') || 0;
+    const latestScore = local.get('latest-score') || 0;
+    els.highscore.textContent = highscore;
+    els.latestScore.textContent = latestScore;
+}
+
 function init() {
     if(!els.canvas) return console.error('Canvas element not found');
     ctx = els.canvas.getContext('2d');
@@ -352,6 +379,7 @@ function init() {
 
     setCanvasSize();
     animate();
+    loadScores();
 
     addEventListener('resize', setCanvasSize);
     addEventListener('keydown', keyDownHandler);
