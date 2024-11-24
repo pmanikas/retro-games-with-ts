@@ -1,6 +1,7 @@
 import { SPEED, SPACING } from './config/global.js';
 import LEVELS from './config/levels.js';
 import { collides } from './utilities/collision.js';
+import {focusNext, focusPrevious } from './utilities/dom.js';
 
 // SERVICES
 import MusicService from './services/MusicService.js';
@@ -75,13 +76,25 @@ function keyDownHandler({ key }) {
     }
 }
 
-function keyUpHandler({ key }) {
-    switch (key) {
+function keyUpHandler(event) {
+    switch (event.key) {
     case 'ArrowLeft':
         keys.left.isPressed = false;
         break;
     case 'ArrowRight':
         keys.right.isPressed = false;
+        break;
+    case 'ArrowUp':
+        if(state.currentState !== 'playing') {
+            event.preventDefault();
+            focusPrevious(event);
+        }
+        break;
+    case 'ArrowDown':
+        if(state.currentState !== 'playing') {
+            event.preventDefault();
+            focusNext(event);
+        }
         break;
     case ' ':
         keys.fire.isPressed = false;
@@ -92,7 +105,7 @@ function keyUpHandler({ key }) {
 
         if(state.currentState === 'playing') {
             state.currentState = 'paused';
-            guiService.selectGUIs('pause');
+            guiService.selectGUIs('pause', { preventSave: true });
         }
         else if(state.currentState === 'paused') {
             state.currentState = 'playing';
@@ -338,7 +351,6 @@ function init() {
         musicService.setSFXVolume(e.target.value);
         musicService.play({ channelType: 'laser' });
     });
-
 }
 
 addEventListener('DOMContentLoaded', init);

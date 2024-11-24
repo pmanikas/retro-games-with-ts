@@ -27,16 +27,14 @@ export default class GUIService {
     }
 
     // supports multiple GUIs as an array or a single GUI as a string
-    selectGUIs(guis) {
+    selectGUIs(guis, options = {}) {
         if(this.currentGuis === guis) return;
+
+        const { preventSave } = options;
 
         this.previousGuis = JSON.parse(JSON.stringify(this.currentGuis));
 
-        this.currentGuis = JSON.parse(JSON.stringify(guis));
-
-        console.log('Previous GUIs:', this.previousGuis);
-        console.log('Current GUIs:', this.currentGuis);
-
+        this.currentGuis = preventSave ? null : JSON.parse(JSON.stringify(guis));
 
         this.hideAllGUIs();
 
