@@ -42,6 +42,7 @@ export default class Enemy {
     }
 
     get bottom () {
+        if(!this.position) return 0;
         return this.position?.y + this.height;
     }
 }

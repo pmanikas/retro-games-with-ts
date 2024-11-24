@@ -190,6 +190,10 @@ function animate(time) {
 
     player.update(ctx);
 
+    if(player.top <= 0) {
+        startLevel(state.currentLevel + 1);
+    }
+
     if(time - times.enemiesFire >= getRandomFromRange(1500, 3000)) {
         const randomIndex = Math.floor(Math.random() * enemies.length);
         enemyFire(enemies[randomIndex]);
@@ -242,6 +246,8 @@ function animate(time) {
                 }
             }
         });
+
+        if(enemy.bottom >= player.top) gameOverHandler();
     });
 
     enemyProjectiles.forEach((projectile, i) => {
@@ -253,10 +259,6 @@ function animate(time) {
             if(state.lives <= 0) gameOverHandler();
         }
     });
-
-    if(player.top <= 0) {
-        startLevel(state.currentLevel + 1);
-    }
 }
 
 function gameOverHandler() {
@@ -271,12 +273,13 @@ function setCanvasSize() {
 }
 
 function startLevel(level = 1) {
-    player.reset();
-
     state.currentLevel = level;
 
     enemies.length = 0;
     projectiles.length = 0;
+    enemyProjectiles.length = 0;
+
+    player.reset();
 
     const cols = LEVELS[level]?.enemies?.columns;
     const rows = LEVELS[level]?.enemies?.rows;
