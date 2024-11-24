@@ -9,6 +9,7 @@ import Player from './nodes/Player.js';
 import Enemy from './nodes/Enemy.js';
 import Particle from './nodes/Particle.js';
 import Projectile from './nodes/Projectile.js';
+import { getRandomFromRange } from './utilities/numbers.js';
 
 const musicService = new MusicService();
 
@@ -187,7 +188,7 @@ function animate(time) {
     ctx.fillRect(0, 0, els.canvas.width, els.canvas.height);
 
     particles.forEach((particle, i) => {
-        if(particle.position.y < 0 || particle.position.y > window.innerHeight) return particles.splice(i, 1);
+        if(particle.position.y < 0 || particle.position.y > els.canvas.height) return particles.splice(i, 1);
 
         particle.update(ctx);
     });
@@ -201,24 +202,17 @@ function animate(time) {
 
     player.update(ctx);
 
-    // decide a random enemy index every 3 seconds to fire
-    if(time - times.enemiesFire >= 2000) {
-        console.log('fire');
+    if(time - times.enemiesFire >= getRandomFromRange(1500, 3000)) {
         const randomIndex = Math.floor(Math.random() * enemies.length);
         enemyFire(enemies[randomIndex]);
         times.enemiesFire = time;
     }
 
-    console.log(enemyProjectiles.length);
-
-
-
-
     enemies.forEach(enemy => {
         enemy.update(ctx);
         let alreadyMoved = false;
 
-        if(!alreadyMoved && (enemy.left <= 0 || enemy.right >= window.innerWidth)) {
+        if(!alreadyMoved && (enemy.left <= 0 || enemy.right >= els.canvas.width)) {
             enemies.forEach(item => {
                 item.velocity.x *= -1;
                 item.position.y += 64;
@@ -233,7 +227,7 @@ function animate(time) {
     });
 
     enemyProjectiles.forEach((projectile, i) => {
-        if(projectile.position.y > window.innerHeight) return enemyProjectiles.splice(i, 1);
+        if(projectile.position.y > els.canvas.height) return enemyProjectiles.splice(i, 1);
         projectile.update(ctx);
     });
 
@@ -244,11 +238,9 @@ function animate(time) {
     }
 
     if (keys.left.isPressed && player.position.x >= 0) player.velocity.x = -SPEED;
-    else if (keys.right.isPressed && player.right <= window.innerWidth) player.velocity.x = SPEED;
+    else if (keys.right.isPressed && player.right <= els.canvas.width) player.velocity.x = SPEED;
     else player.velocity.x = 0;
 
-
-    // check for collisions
     enemies.forEach((enemy, i) => {
         projectiles.forEach((projectile, j) => {
             if(collides(enemy, projectile)) {
@@ -264,7 +256,6 @@ function animate(time) {
         });
     });
 
-    // check for player collision
     enemyProjectiles.forEach((projectile, i) => {
         if(collides(player, projectile)) {
             enemyProjectiles.splice(i, 1);
@@ -342,19 +333,16 @@ function init() {
     setCanvasSize();
     animate();
 
-    window.addEventListener('resize', setCanvasSize);
-    window.addEventListener('keydown', keyDownHandler);
-    window.addEventListener('keyup', keyUpHandler);
-    window.addEventListener('click', clickHandler);
-    els.musicSlider.addEventListener('input', e => {
-        console.log(e.target.value);
+    addEventListener('resize', setCanvasSize);
+    addEventListener('keydown', keyDownHandler);
+    addEventListener('keyup', keyUpHandler);
+    addEventListener('click', clickHandler);
 
+    els.musicSlider.addEventListener('input', e => {
         musicService.setMusicVolume(e.target.value);
     });
 
     els.sfxSlider.addEventListener('input', e => {
-        console.log(e.target.value);
-
         musicService.setSFXVolume(e.target.value);
         musicService.play({ channelType: 'laser' });
     });
