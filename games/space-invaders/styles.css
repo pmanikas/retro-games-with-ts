@@ -47,6 +47,17 @@ button:focus {
     color: var(--text-color);
 }
 
+.bottom-gui {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: var(--base-spacing);
+    color: var(--text-color);
+}
+
 .header {
     font-size: 4rem;
 }

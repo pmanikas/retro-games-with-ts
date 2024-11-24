@@ -33,6 +33,7 @@ const els = {
     canvas: document.querySelector('[data-canvas]'),
     score: document.querySelector('[data-score]'),
     lives: document.querySelector('[data-lives]'),
+    level: document.querySelector('[data-level]'),
     highscore: document.querySelector('[data-highscore]'),
     latestScore: document.querySelector('[data-latest-score]'),
     musicSlider: document.querySelector('[data-music-volume-slider]'),
@@ -322,6 +323,7 @@ function setCanvasSize() {
 
 function startLevel(level = 1) {
     state.currentLevel = level;
+    els.level.textContent = level;
 
     enemies.length = 0;
     projectiles.length = 0;
