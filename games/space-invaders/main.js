@@ -1,7 +1,11 @@
+// CONFIGURATIONS
 import { SPEED, SPACING } from './config/global.js';
 import LEVELS from './config/levels.js';
+
+// UTILITIES
 import { collides } from './utilities/collision.js';
 import {focusNext, focusPrevious } from './utilities/dom.js';
+import { getRandomFromRange } from './utilities/numbers.js';
 
 // SERVICES
 import MusicService from './services/MusicService.js';
@@ -12,7 +16,6 @@ import Player from './nodes/Player.js';
 import Enemy from './nodes/Enemy.js';
 import Particle from './nodes/Particle.js';
 import Projectile from './nodes/Projectile.js';
-import { getRandomFromRange } from './utilities/numbers.js';
 
 const musicService = new MusicService();
 const guiService = new GUIService();
@@ -101,8 +104,6 @@ function keyUpHandler(event) {
         state.isFiring = false;
         break;
     case 'Escape':
-        console.log('Current state:', state.currentState);
-
         if(state.currentState === 'playing') {
             state.currentState = 'paused';
             guiService.selectGUIs('pause', { preventSave: true });
@@ -147,18 +148,27 @@ function creditsHandler() {
 }
 
 function clickHandler(e) {
-    if(!musicService.isPlaying({ channelType: 'music' })) {
+    if (!musicService.isPlaying({ channelType: 'music' })) {
         musicService.play({ channelType: 'music', loop: true });
     }
 
-    if(e.target.hasAttribute('data-start-button')) startHandler();
-    else if(e.target.hasAttribute('data-resume-button')) resumeHandler();
-    else if(e.target.hasAttribute('data-exit-button')) exitHandler();
-    else if(e.target.hasAttribute('data-back-button')) backHandler();
-    else if(e.target.hasAttribute('data-options-button')) optionsHandler();
-    else if(e.target.hasAttribute('data-play-again-button')) startHandler();
-    else if(e.target.hasAttribute('data-credits-button')) creditsHandler();
+    const buttonHandlers = {
+        'data-start-button': startHandler,
+        'data-resume-button': resumeHandler,
+        'data-exit-button': exitHandler,
+        'data-back-button': backHandler,
+        'data-options-button': optionsHandler,
+        'data-play-again-button': startHandler,
+        'data-credits-button': creditsHandler,
+    };
+
+    const handler = Object.entries(buttonHandlers)
+        .find(([attr]) => e.target.hasAttribute(attr))?.[1];
+
+    if (handler) handler();
+    else console.warn('Unhandled button click:', e.target);
 }
+
 
 function updateScore(value) {
     state.score += value;
@@ -276,7 +286,7 @@ function animate(time) {
 
 function gameOverHandler() {
     state.currentState = 'gameover';
-    guiService.selectGUIs('gameOver');
+    guiService.selectGUIs('gameOver', { preventSave: true });
     musicService.play({ channelType: 'gameOver' });
 }
 
