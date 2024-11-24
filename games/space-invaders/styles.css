@@ -89,34 +89,12 @@ button:focus {
     margin-top: var(--base-spacing);
 }
 
-.coffee {
+.coffee-container {
     position: absolute;
     bottom: var(--base-spacing);
     right: var(--base-spacing);
     display: flex;
-    padding: calc(var(--base-spacing) / 2);
-    background-color: #fd0;
+    justify-content: center;
     align-items: center;
-    color: #000;
-    border: none;
-    opacity: 0.2;
-    cursor: pointer;
-    font-size: 12px;
-    word-spacing: 0;
-    letter-spacing: 0;
-}
-
-.coffee::before {
-    content: "";
-    background-image: url("./assets/images/coffee-cup-8bit.png");
-    width: 20px;
-    height: 40px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    flex-shrink: 0;
-    margin-right: var(--base-spacing);
-}
-
-.coffee:hover {
-    opacity: 1;
+    margin-top: var(--base-spacing);
 }
