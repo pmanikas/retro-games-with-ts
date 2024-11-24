@@ -1,4 +1,4 @@
-import { BASE_PADDING } from '../config.js';
+import { BASE_PADDING } from '../config/global.js';
 
 export default class Player {
     position;

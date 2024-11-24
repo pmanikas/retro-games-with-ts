@@ -1,0 +1,7 @@
+const SPEED = 5;
+const SCORE_PER_ENEMY = 10;
+
+const BASE_PADDING = 20;
+const SPACING = 10;
+
+export { SPEED, BASE_PADDING, SPACING, SCORE_PER_ENEMY };

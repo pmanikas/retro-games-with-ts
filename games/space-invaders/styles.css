@@ -47,6 +47,10 @@ button:focus {
     color: var(--text-color);
 }
 
+.menu-container {
+    margin-top: calc(var(--base-spacing) * 2);
+}
+
 .main-gui {
     position: absolute;
     top: 0;
@@ -61,19 +65,21 @@ button:focus {
 }
 
 .button {
-    padding: var(--base-spacing);
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+    padding: calc(var(--base-spacing) / 2);
     margin-top: var(--base-spacing);
     font-family: "Press Start 2P", cursive;
     font-size: 1rem;
     color: var(--text-color);
-    border: 2px solid var(--text-color);
+    border-bottom: 2px solid transparent;
 }
 
 .button:hover,
 .button:focus,
 .button:active {
-    background-color: var(--text-color);
-    color: #000;
+    border-color: var(--text-color);
 }
 
 .slider-container {
@@ -81,4 +87,36 @@ button:focus {
     justify-content: center;
     align-items: center;
     margin-top: var(--base-spacing);
+}
+
+.coffee {
+    position: absolute;
+    bottom: var(--base-spacing);
+    right: var(--base-spacing);
+    display: flex;
+    padding: calc(var(--base-spacing) / 2);
+    background-color: #fd0;
+    align-items: center;
+    color: #000;
+    border: none;
+    opacity: 0.2;
+    cursor: pointer;
+    font-size: 12px;
+    word-spacing: 0;
+    letter-spacing: 0;
+}
+
+.coffee::before {
+    content: "";
+    background-image: url("./assets/images/coffee-cup-8bit.png");
+    width: 20px;
+    height: 40px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    flex-shrink: 0;
+    margin-right: var(--base-spacing);
+}
+
+.coffee:hover {
+    opacity: 1;
 }

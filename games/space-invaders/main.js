@@ -1,8 +1,10 @@
-import { SPEED, LEVELS, SPACING } from './config.js';
+import { SPEED, SPACING } from './config/global.js';
+import LEVELS from './config/levels.js';
 import { collides } from './utilities/collision.js';
 
 // SERVICES
 import MusicService from './services/MusicService.js';
+import GUIService from './services/GUIService.js';
 
 // NODES
 import Player from './nodes/Player.js';
@@ -12,6 +14,7 @@ import Projectile from './nodes/Projectile.js';
 import { getRandomFromRange } from './utilities/numbers.js';
 
 const musicService = new MusicService();
+const guiService = new GUIService();
 
 const player = new Player();
 const enemies = [];
@@ -22,22 +25,11 @@ const particles = [];
 let ctx = null;
 
 const els = {
-    startGUI: document.querySelector('[data-start-GUI]'),
-    startButton: document.querySelector('[data-start-button]'),
-    topGUI: document.querySelector('[data-top-GUI]'),
+    canvas: document.querySelector('[data-canvas]'),
     score: document.querySelector('[data-score]'),
     lives: document.querySelector('[data-lives]'),
-    canvas: document.querySelector('[data-canvas]'),
-    pauseGUI: document.querySelector('[data-pause-GUI]'),
-    resumeButton: document.querySelector('[data-resume-button]'),
-    exitButton: document.querySelector('[data-exit-button]'),
-    optonsGui: document.querySelector('[data-options-GUI]'),
-    backButton: document.querySelector('[data-back-button]'),
-    optionsButton: document.querySelector('[data-options-button]'),
     musicSlider: document.querySelector('[data-music-volume-slider]'),
     sfxSlider: document.querySelector('[data-sfx-volume-slider]'),
-    gameOverGUI: document.querySelector('[data-game-over-GUI]'),
-    playAgainButton: document.querySelector('[data-play-again-button]'),
 };
 
 const times = {
@@ -96,18 +88,49 @@ function keyUpHandler({ key }) {
         state.isFiring = false;
         break;
     case 'Escape':
+        console.log('Current state:', state.currentState);
+
         if(state.currentState === 'playing') {
             state.currentState = 'paused';
-            els.pauseGUI?.classList.remove('hidden');
-            musicService.play({ channelType: 'gui' });
+            guiService.selectGUIs('pause');
         }
         else if(state.currentState === 'paused') {
             state.currentState = 'playing';
-            els.pauseGUI?.classList.add('hidden');
-            musicService.play({ channelType: 'gui' });
+            guiService.selectGUIs('game');
         }
+        else guiService.goBack();
         break;
     }
+}
+
+function startHandler() {
+    guiService.selectGUIs('game');
+    state.currentState = 'playing';
+    startGame();
+}
+
+function resumeHandler() {
+    guiService.selectGUIs('game');
+    state.currentState = 'playing';
+}
+
+function exitHandler() {
+    guiService.selectGUIs('start');
+    state.currentState = 'start';
+}
+
+function backHandler() {
+    guiService.goBack();
+    if(state.currentState === 'start') state.currentState = 'paused';
+    else if(state.currentState === 'paused') state.currentState = 'start';
+}
+
+function optionsHandler() {
+    guiService.selectGUIs('options');
+}
+
+function creditsHandler() {
+    guiService.selectGUIs('credits');
 }
 
 function clickHandler(e) {
@@ -115,48 +138,13 @@ function clickHandler(e) {
         musicService.play({ channelType: 'music', loop: true });
     }
 
-    if(e.target === els.startButton) {
-        els.startGUI?.classList.add('hidden');
-        els.topGUI?.classList.remove('hidden');
-        state.currentState = 'playing';
-        musicService.play({ channelType: 'gui' });
-        startGame();
-    }
-
-    else if(e.target === els.resumeButton) {
-        els.pauseGUI?.classList.add('hidden');
-        state.currentState = 'playing';
-        musicService.play({ channelType: 'gui' });
-    }
-
-    else if(e.target === els.exitButton) {
-        els.pauseGUI?.classList.add('hidden');
-        els.topGUI?.classList.add('hidden');
-        els.startGUI?.classList.remove('hidden');
-        state.currentState = 'start';
-        musicService.play({ channelType: 'gui' });
-    }
-
-    else if(e.target === els.backButton) {
-        els.optonsGui?.classList.add('hidden');
-        els.startGUI?.classList.remove('hidden');
-        state.currentState = 'start';
-        musicService.play({ channelType: 'gui' });
-    }
-
-    else if(e.target === els.optionsButton) {
-        els.startGUI?.classList.add('hidden');
-        els.optonsGui?.classList.remove('hidden');
-        musicService.play({ channelType: 'gui' });
-    }
-
-    else if(e.target === els.playAgainButton) {
-        els.gameOverGUI?.classList.add('hidden');
-        els.topGUI?.classList.remove('hidden');
-        state.currentState = 'playing';
-        musicService.play({ channelType: 'gui' });
-        startGame();
-    }
+    if(e.target.hasAttribute('data-start-button')) startHandler();
+    else if(e.target.hasAttribute('data-resume-button')) resumeHandler();
+    else if(e.target.hasAttribute('data-exit-button')) exitHandler();
+    else if(e.target.hasAttribute('data-back-button')) backHandler();
+    else if(e.target.hasAttribute('data-options-button')) optionsHandler();
+    else if(e.target.hasAttribute('data-play-again-button')) startHandler();
+    else if(e.target.hasAttribute('data-credits-button')) creditsHandler();
 }
 
 function updateScore(value) {
@@ -247,7 +235,7 @@ function animate(time) {
                 enemies.splice(i, 1);
                 musicService.play({ channelType: 'enemyDeath' });
                 projectiles.splice(j, 1);
-                updateScore(1);
+                updateScore(enemy.score);
                 if(enemies.length === 0) {
                     player.velocity.y = -10;
                     musicService.play({ channelType: 'nextLevel', speed: 2 });
@@ -273,8 +261,7 @@ function animate(time) {
 
 function gameOverHandler() {
     state.currentState = 'gameover';
-    els.topGUI?.classList.add('hidden');
-    els.gameOverGUI?.classList.remove('hidden');
+    guiService.selectGUIs('gameOver');
     musicService.play({ channelType: 'gameOver' });
 }
 
@@ -329,6 +316,8 @@ function init() {
     if(!musicService.isPlaying({ channelType: 'music' })) {
         musicService.play({ channelType: 'music', loop: true });
     }
+
+    guiService.selectGUIs('start');
 
     setCanvasSize();
     animate();

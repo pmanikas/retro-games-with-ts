@@ -1,8 +1,4 @@
-const SPEED = 5;
-
-const BASE_PADDING = 20;
-
-const LEVELS = {
+export default {
     1: {
         enemies: {
             rows: 1,
@@ -46,7 +42,3 @@ const LEVELS = {
         },
     },
 };
-
-const SPACING = 10;
-
-export { SPEED, BASE_PADDING, LEVELS, SPACING };

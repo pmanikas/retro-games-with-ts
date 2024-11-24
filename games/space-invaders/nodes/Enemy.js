@@ -1,4 +1,5 @@
 export default class Enemy {
+    score = 10;
 
     constructor({ position, velocity }) {
         this.position = position;
