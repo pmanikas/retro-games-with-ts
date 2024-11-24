@@ -1,21 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Game Portfolio</title>
+        <link rel="stylesheet" href="styles.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+            rel="stylesheet"
+        />
     </head>
     <body>
-        <ul>
-            <li>
-                <a href="pong/index.html">Pong</a>
-            </li>
-            <li>
-                <a href="snake/index.html">Snake</a>
-            </li>
-            <li>
-                <a href="space-invaders/index.html">Space Invaders</a>
-            </li>
-        </ul>
+        <div class="wrapper">
+            <main>
+                <h1 class="header">My Game Portfolio</h1>
+                <ul class="list">
+                    <li class="item">
+                        <a class="link" href="pong/index.html">
+                            <div class="image-container">
+                                <img
+                                    class="image"
+                                    src="assets/images/pong-thumbnail.jpg"
+                                    alt="Pong thumbnail"
+                                />
+                            </div>
+                            <div class="info">
+                                <h2 class="title">Pong</h2>
+                                <p class="description">
+                                    A classic arcade game.
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="item">
+                        <a class="link" href="snake/index.html">
+                            <div class="image-container">
+                                <img
+                                    class="image"
+                                    src="assets/images/snake-thumbnail.png"
+                                    alt="Snake thumbnail"
+                                />
+                            </div>
+                            <div class="info">
+                                <h2 class="title">Snake</h2>
+                                <p class="description">
+                                    Guide the snake to eat food!
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="item">
+                        <a class="link" href="space-invaders/index.html">
+                            <div class="image-container">
+                                <img
+                                    class="image"
+                                    src="assets/images/space-invaders-thumbnail.png"
+                                    alt="Space Invaders thumbnail"
+                                />
+                            </div>
+                            <div class="info">
+                                <h2 class="title">Space Invaders</h2>
+                                <p class="description">
+                                    Defend against alien invaders.
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </main>
+            <br>
+            <footer>
+                <script src="https://pmanikas.github.io/pmanikas/scripts/github-button-8bit.js"></script>
+            </footer>
+        </div>
     </body>
 </html>
