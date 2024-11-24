@@ -102,3 +102,13 @@ button:focus {
     align-items: center;
     margin-top: var(--base-spacing);
 }
+
+.credits-text {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.credits-link {
+    color: var(--text-color);
+}
