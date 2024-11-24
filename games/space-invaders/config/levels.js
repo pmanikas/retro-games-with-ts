@@ -1,44 +1,12 @@
 export default {
-    1: {
-        enemies: {
-            rows: 1,
-            columns: 6,
-            speed: 0.5,
+    ...Array.from({ length: 50 }, (_, i) => ({
+        [i]: {
+            enemies: {
+                rows: Math.min(2 + Math.floor(i / 5), 6),
+                columns: Math.min(6 + i % 5, 11),
+                speed: Math.min(0.5 + i % 4, 4),
+                attackDelay: 2000 - Math.floor(i / 4) * 500,
+            },
         },
-    },
-    2: {
-        enemies: {
-            rows: 3,
-            columns: 11,
-            speed: 0.75,
-        },
-    },
-    3: {
-        enemies: {
-            rows: 4,
-            columns: 11,
-            speed: 2,
-        },
-    },
-    4: {
-        enemies: {
-            rows: 7,
-            columns: 11,
-            speed: 2,
-        },
-    },
-    5: {
-        enemies: {
-            rows: 7,
-            columns: 12,
-            speed: 2,
-        },
-    },
-    6: {
-        enemies: {
-            rows: 7,
-            columns: 13,
-            speed: 3,
-        },
-    },
+    })).reduce((acc, level) => ({ ...acc, ...level }), {}),
 };

@@ -1,9 +1,11 @@
 export default class Enemy {
     score = 10;
+    attackDelay = 1;
 
-    constructor({ position, velocity }) {
+    constructor({ position, velocity, attackDelay }) {
         this.position = position;
         this.velocity = velocity;
+        this.attackDelay = attackDelay || this.attackDelay;
 
         const image = new Image();
         image.src = './assets/images/monster-1.png';

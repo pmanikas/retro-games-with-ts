@@ -242,7 +242,7 @@ function animate(time) {
         startLevel(state.currentLevel + 1);
     }
 
-    if(time - times.enemiesFire >= getRandomFromRange(1500, 3000)) {
+    if(time - times.enemiesFire >= getRandomFromRange(enemies[0]?.attackDelay * 0.75, enemies[0]?.attackDelay * 1.25)) {
         const randomIndex = Math.floor(Math.random() * enemies.length);
         enemyFire(enemies[randomIndex]);
         times.enemiesFire = time;
@@ -332,6 +332,7 @@ function startLevel(level = 1) {
     const cols = LEVELS[level]?.enemies?.columns;
     const rows = LEVELS[level]?.enemies?.rows;
     const speed = LEVELS[level]?.enemies?.speed;
+    const attackDelay = LEVELS[level]?.enemies?.attackDelay;
 
     const particlesCount = LEVELS[level]?.particles?.count;
 
@@ -342,6 +343,7 @@ function startLevel(level = 1) {
             enemies.push(new Enemy({
                 position: { x: x * enemySize, y: y * enemySize },
                 velocity: { x: speed, y: 0 },
+                attackDelay,
             }));
         }
     }
