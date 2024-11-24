@@ -147,6 +147,10 @@ function creditsHandler() {
     guiService.selectGUIs('credits');
 }
 
+function highscoreHandler() {
+    guiService.selectGUIs('highscore');
+}
+
 function clickHandler(e) {
     if (!musicService.isPlaying({ channelType: 'music' })) {
         musicService.play({ channelType: 'music', loop: true });
@@ -160,6 +164,7 @@ function clickHandler(e) {
         'data-options-button': optionsHandler,
         'data-play-again-button': startHandler,
         'data-credits-button': creditsHandler,
+        'data-highscore-button': highscoreHandler,
     };
 
     const handler = Object.entries(buttonHandlers)

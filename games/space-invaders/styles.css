@@ -47,6 +47,10 @@ button:focus {
     color: var(--text-color);
 }
 
+.header {
+    font-size: 4rem;
+}
+
 .menu-container {
     margin-top: calc(var(--base-spacing) * 2);
 }

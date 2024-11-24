@@ -21,10 +21,11 @@
         <canvas data-canvas></canvas>
         <div class="start-gui main-gui hidden" data-start-GUI>
             <div>
-                <h1>Space Invaders</h1>
+                <h1 class="header">Space Invaders</h1>
                 <div class="menu-container">
                     <button class="button" data-start-button>Start</button>
                     <button class="button" data-options-button>Options</button>
+                    <button class="button" data-highscore-button>Highscore</button>
                     <button class="button" data-credits-button>Credits</button>
                 </div>
                 <div class="coffee-container">
@@ -34,7 +35,7 @@
         </div>
         <div class="pause-gui main-gui hidden" data-pause-GUI>
             <div>
-                <h1>Paused</h1>
+                <h1 class="header">Paused</h1>
                 <div class="menu-container">
                     <button class="button" data-resume-button>Resume</button>
                     <button class="button" data-start-button>Restart</button>
@@ -47,7 +48,7 @@
         </div>
         <div class="credits-gui main-gui hidden" data-credits-GUI>
             <div>
-                <h1>Credits</h1>
+                <h1 class="header">Credits</h1>
                 <div class="menu-container">
                     <p>Created by <a href="https://pantelismanikas.com" target="_blank">Pantelis Manikas</a></p>
                     <button class="button" data-back-button>Back</button>
@@ -59,7 +60,7 @@
         </div>
         <div class="game-over-gui main-gui hidden" data-game-over-GUI>
             <div>
-                <h1>Game Over</h1>
+                <h1 class="header">Game Over</h1>
                 <div class="menu-container">
                     <button class="button" data-play-again-button>Play Again</button>
                     <button class="button" data-exit-button>Main Menu</button>
@@ -71,7 +72,7 @@
         </div>
         <div class="options-gui main-gui hidden" data-options-GUI>
             <div>
-                <h1>Options</h1>
+                <h1 class="header">Options</h1>
                 <div class="menu-container">
                     <div class="volume-control">
                         <label for="music-volume">Music</label>
@@ -82,6 +83,18 @@
                         <label for="sfx-volume">SFX</label>
                         <input class="slider" data-sfx-volume-slider type="range" id="sfx-volume" name="sfx-volume" min="0" max="1" step="0.1" value="0.5">
                     </div>
+                    <button class="button" data-back-button>Back</button>
+                </div>
+                <div class="coffee-container">
+                    <script src="https://pmanikas.github.io/pmanikas/scripts/buy-me-coffee-button-8bit.js"></script>
+                </div>
+            </div>
+        </div>
+        <div class="highscore-gui main-gui hidden" data-highscore-GUI>
+            <div>
+                <h1 class="header">Highscore</h1>
+                <div class="menu-container">
+                    <p>Highscore: <span data-highscore>0</span></p>
                     <button class="button" data-back-button>Back</button>
                 </div>
                 <div class="coffee-container">

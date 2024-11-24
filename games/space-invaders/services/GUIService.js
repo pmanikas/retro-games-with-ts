@@ -10,6 +10,7 @@ export default class GUIService {
         options: document.querySelector('[data-options-GUI]'),
         gameOver: document.querySelector('[data-game-over-GUI]'),
         credits: document.querySelector('[data-credits-GUI]'),
+        highscore: document.querySelector('[data-highscore-GUI]'),
     };
 
     previousGuis = null;
