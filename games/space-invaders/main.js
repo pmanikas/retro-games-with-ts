@@ -3,10 +3,10 @@ import { SPEED, SPACING, TOTAL_PARTICLES } from './config/global.js';
 import LEVELS from './config/levels.js';
 
 // UTILITIES
-import { collides } from './utilities/collision.js';
-import {focusNext, focusPrevious } from './utilities/dom.js';
-import { getRandomFromRange } from './utilities/numbers.js';
-import local from './utilities/browser-storage.js';
+import { collides } from './../utilities/collision.js';
+import {focusNext, focusPrevious } from './../utilities/dom.js';
+import { getRandomFromRange } from './../utilities/numbers.js';
+import local from './../utilities/browser-storage.js';
 
 // SERVICES
 import MusicService from './services/MusicService.js';

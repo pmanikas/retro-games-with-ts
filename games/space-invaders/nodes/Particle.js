@@ -1,5 +1,5 @@
-import { getRandomFromRange } from './../utilities/numbers.js';
-import { generateRandomColor } from './../utilities/colors.js';
+import { getRandomFromRange } from './../../utilities/numbers.js';
+import { generateRandomColor } from './../../utilities/colors.js';
 
 export default class Particle {
     defaultPosition = { x: getRandomFromRange(0, window.innerWidth), y: getRandomFromRange(0, window.innerHeight) };

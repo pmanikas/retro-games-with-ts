@@ -13,11 +13,18 @@
 </head>
 
 <body>
-    <div class="score" id="score">
-        <span>SCORE: <span id="scoreValue">0</span></span>
+    <div class="top" data-top-gui>
+        <span>SCORE: <span data-score>0</span></span>
+        <span>HIGH: <span data-highscore>0</span></span>
     </div>
-    <div class="container">
-        <canvas width="600" height="600" id="canvas"></canvas>
+    <div class="game-container" data-game-gui>
+        <canvas width="600" height="600" class="canvas" data-canvas></canvas>
+    </div>
+    <div class="footer">
+        <p class="credits">Created by <a href="https://pantelismanikas.com" target="_blank">Pantelis Manikas</a></p>
+        <div class="donation-button">
+            <script src="https://pmanikas.github.io/pmanikas/scripts/buy-me-coffee-button-8bit.js"></script>
+        </div>
     </div>
     <script src="./script.js" type="module"></script>
 </body>
