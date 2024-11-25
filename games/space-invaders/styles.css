@@ -61,6 +61,7 @@ button:focus {
 
 .header {
     font-size: 4rem;
+    max-width: 500px;
 }
 
 .menu-container {
