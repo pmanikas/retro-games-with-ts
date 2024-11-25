@@ -220,8 +220,14 @@ function animate(time) {
 
     requestAnimationFrame(animate);
 
-    ctx.fillStyle = 'black';
+    const gradient = ctx.createLinearGradient(0, 0, els.canvas.width, els.canvas.height);
+    gradient.addColorStop(0, 'black');
+    gradient.addColorStop(0.5, '#12124d');
+    gradient.addColorStop(1, '#251238');
+    ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, els.canvas.width, els.canvas.height);
+    // ctx.fillStyle = 'purple';
+    // ctx.fillRect(0, 0, els.canvas.width, els.canvas.height);
 
     particles.forEach((particle) => {
         if(particle.position.y < 0 || particle.position.y > els.canvas.height) particle.position.y = 0;

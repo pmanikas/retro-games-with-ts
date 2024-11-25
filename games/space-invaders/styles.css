@@ -24,6 +24,7 @@ button:focus {
 :root {
     --base-spacing: 1rem;
     --text-color: #fff;
+    --purple: #12124d;
 }
 
 /* UTILITIES */
@@ -127,4 +128,8 @@ button:focus {
 
 .credits-link {
     color: var(--text-color);
+}
+
+input[type="range"] {
+    accent-color: var(--text-color);
 }
