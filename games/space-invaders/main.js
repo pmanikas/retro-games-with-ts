@@ -1,5 +1,5 @@
 // CONFIGURATIONS
-import { SPEED, SPACING } from './config/global.js';
+import { SPEED, SPACING, TOTAL_PARTICLES } from './config/global.js';
 import LEVELS from './config/levels.js';
 
 // UTILITIES
@@ -41,7 +41,6 @@ const els = {
 };
 
 const times = {
-    particles: 0,
     enemiesFire: 0,
 };
 
@@ -224,16 +223,11 @@ function animate(time) {
     ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, els.canvas.width, els.canvas.height);
 
-    particles.forEach((particle, i) => {
-        if(particle.position.y < 0 || particle.position.y > els.canvas.height) return particles.splice(i, 1);
+    particles.forEach((particle) => {
+        if(particle.position.y < 0 || particle.position.y > els.canvas.height) particle.position.y = 0;
 
         particle.update(ctx);
     });
-
-    if(time - times.particles >= 30) {
-        times.particles = time;
-        particles.push(new Particle());
-    }
 
     if(state.currentState !== 'playing') return;
 
@@ -336,8 +330,6 @@ function startLevel(level = 1) {
     const speed = LEVELS[level]?.enemies?.speed;
     const attackDelay = LEVELS[level]?.enemies?.attackDelay;
 
-    const particlesCount = LEVELS[level]?.particles?.count;
-
     const enemySize = 64 + SPACING;
 
     for (let x = 1; x <= cols; x++) {
@@ -348,10 +340,6 @@ function startLevel(level = 1) {
                 attackDelay,
             }));
         }
-    }
-
-    for (let i = 0; i < particlesCount; i++) {
-        particles.push(new Particle());
     }
 }
 
@@ -377,6 +365,10 @@ function init() {
 
     if(!musicService.isPlaying({ channelType: 'music' })) {
         musicService.play({ channelType: 'music', loop: true });
+    }
+
+    for (let i = 0; i < TOTAL_PARTICLES; i++) {
+        particles.push(new Particle());
     }
 
     guiService.selectGUIs('start');
