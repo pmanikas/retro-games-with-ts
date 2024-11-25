@@ -365,6 +365,15 @@ function loadScores() {
     els.latestScore.textContent = latestScore;
 }
 
+function setupSound() {
+    const musicVolume = local.get('invaders-music-volume') || 0.5;
+    const sfxVolume = local.get('invaders-sfx-volume') || 0.5;
+    musicService.setMusicVolume(musicVolume);
+    musicService.setSFXVolume(sfxVolume);
+    els.musicSlider.value = musicVolume;
+    els.sfxSlider.value = sfxVolume;
+}
+
 function init() {
     if(!els.canvas) return console.error('Canvas element not found');
     ctx = els.canvas.getContext('2d');
@@ -382,6 +391,7 @@ function init() {
     setCanvasSize();
     animate();
     loadScores();
+    setupSound();
 
     addEventListener('resize', setCanvasSize);
     addEventListener('keydown', keyDownHandler);
@@ -390,11 +400,13 @@ function init() {
 
     els.musicSlider.addEventListener('input', e => {
         musicService.setMusicVolume(e.target.value);
+        local.save('invaders-music-volume', e.target.value);
     });
 
     els.sfxSlider.addEventListener('input', e => {
         musicService.setSFXVolume(e.target.value);
         musicService.play({ channelType: 'laser' });
+        local.save('invaders-sfx-volume', e.target.value);
     });
 }
 
