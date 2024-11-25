@@ -25,7 +25,7 @@
                     <button class="button" data-button data-button-options>Options</button>
                 </nav>
             </page>
-    
+
             <page class="screen" data-screen="options">
                 <h1 class="game-title">PONG GAME</h1>
                 <h2>OPTIONS</h2>
@@ -34,12 +34,12 @@
                         <label for="set-wins-input" class="label">Set game score</label>
                         <input class="form-control" for="set-wins-input" type="number" pattern="[0-9]" placeholder="Select score to set the game" min="1" max="100" data-input-set-game-score onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
                     </div>
-    
+
                     <button class="button" data-button data-button-save-options>Save</button>
                     <button class="button" data-button data-button-exit>Exit to Main Menu</button>
                 </nav>
             </page>
-    
+
             <page class="screen" data-screen="pause">
                 <h1 class="game-title">PONG GAME</h1>
                 <h2>PAUSED</h2>
@@ -49,7 +49,7 @@
                     <button class="button" data-button data-button-exit>Exit to Main Menu</button>
                 </nav>
             </page>
-    
+
             <page class="screen" data-screen="set">
                 <h1 class="game-title">PONG GAME</h1>
                 <h2 data-set-results-text>?</h2>
@@ -58,7 +58,7 @@
                     <button class="button" data-button data-button-exit>Exit to Main Menu</button>
                 </nav>
             </page>
-    
+
             <game class="the-game" data-screen="the-game">
                 <div class="score">
                     <div data-score="human">0</div>
@@ -70,8 +70,17 @@
             </game>
         </div>
 
-        <notifications class="notifications" data-notifications-area></notifications>
+        <footer class="footer" data-footer-gui>
+            <div class="credits">
+                <script src="https://pmanikas.github.io/pmanikas/scripts/github-button-8bit.js"></script>
+                <!-- <p>Created by <a href="https://pantelismanikas.com" target="_blank">Pantelis Manikas</a></p> -->
+            </div>
+            <div class="donation">
+                <script src="https://pmanikas.github.io/pmanikas/scripts/buy-me-coffee-button-8bit.js"></script>
+            </div>
+        </footer>
 
+        <notifications class="notifications" data-notifications-area></notifications>
         <script src="./index.js" type="module"></script>
     </body>
 </html>

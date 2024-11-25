@@ -58,6 +58,7 @@ export default class Game {
     };
 
     switchToScreen(screen = '') {
+        document.body.setAttribute('screen', screen && screen?.getAttribute('data-screen') || 'game');
         hideScreen(this.currentScreen);
         this.currentScreen = screen;
         if (screen) showScreen(screen);
@@ -100,7 +101,6 @@ export default class Game {
     };
 
     keyUpHandler = (e) => {
-    // console.log(e.code); // DEV QUICK CHECK
         if (e.code === 'ArrowDown') this.arrowDownHandler();
         if (e.code === 'ArrowUp') this.arrowUpHandler();
         if (e.code === 'Escape') this.togglePause();
@@ -198,7 +198,6 @@ export default class Game {
 
     handleFinish = () => {
         this.gameStatus = 'STOPPED';
-        // setMaxScore(); TODO
         this.switchToScreen(setScreenElem);
         const score = this.youWon() ? 'YOU AWESOME :)' : 'GAME OVER :(';
         setElementText(gameResultTitleElem, score);

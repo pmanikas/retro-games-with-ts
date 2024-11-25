@@ -14,6 +14,7 @@
     --saturation: 50%;
     --foreground-color: hsl(var(--hue) var(--saturation) 75%);
     --background-color: hsl(var(--hue) var(--saturation) 20%);
+    --base-spacing: 1rem;
 }
 
 body {
@@ -22,6 +23,14 @@ body {
     overflow: hidden;
     font-family: "Press Start 2P", cursive;
     font-size: 18px;
+}
+
+a {
+    color: var(--foreground-color);
+}
+
+.hidden {
+    display: none;
 }
 
 button {
@@ -226,6 +235,40 @@ input {
     animation-name: progress;
     animation-iteration-count: 1;
     animation-timing-function: linear;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 var(--base-spacing);
+    color: var(--foreground-color);
+    font-size: 0.75rem;
+}
+
+body[screen="game"] .footer {
+    display: none;
+}
+
+.credits {
+    opacity: 0.3;
+}
+
+.donation {
+    opacity: 0.3;
+}
+
+.credits:hover {
+    opacity: 1;
+}
+
+.donation:hover {
+    opacity: 1;
 }
 
 @keyframes progress {
