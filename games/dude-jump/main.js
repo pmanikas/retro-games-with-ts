@@ -305,6 +305,21 @@ function initPlatforms() {
     }
 }
 
+function handlePageVisibilityChange() {
+    if(document.hidden) {
+        if(state.currentState === 'playing') {
+            state.currentState = 'paused';
+            guiService.selectGUIs('pause', { preventSave: true });
+        }
+        musicService.pause({ channelType: 'music' });
+    }
+    else {
+        if(state.currentState === 'paused') {
+            musicService.play({ channelType: 'music', loop: true });
+        }
+    }
+}
+
 function init() {
     if(!els.canvas) return console.error('Canvas element not found');
 
@@ -328,6 +343,7 @@ function init() {
     addEventListener('keydown', keyDownHandler);
     addEventListener('keyup', keyUpHandler);
     addEventListener('click', clickHandler);
+    addEventListener('visibilitychange', handlePageVisibilityChange);
 
     addEventListener('touchstart', (e) => {
         if(e.touches[0].clientX < window.innerWidth / 2) {
