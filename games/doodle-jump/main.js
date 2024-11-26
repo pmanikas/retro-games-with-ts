@@ -169,31 +169,25 @@ function updateScore(value) {
 
     const score = state.score;
     els.score.textContent = score;
-    local.save('doodle-latest-score', score);
-    const currentHighscore = local.get('doodle-highscore') || 0;
+    local.save('dude-latest-score', score);
+    const currentHighscore = local.get('dude-highscore') || 0;
     if(score > currentHighscore) {
-        local.save('doodle-highscore', score);
+        local.save('dude-highscore', score);
         els.highscore.textContent = score;
     }
     els.latestScore.textContent = score;
 }
 
 function clearScores() {
-    local.delete('doodle-highscore');
-    local.delete('doodle-latest-score');
+    local.delete('dude-highscore');
+    local.delete('dude-latest-score');
     els.highscore.textContent = 0;
     els.latestScore.textContent = 0;
     musicService.play({ channelType: 'jump' });
 }
 
 function generateType() {
-    if(state.score < 100) {
-        console.log('MIEH', state.score);
-
-        return 'NORMAL';
-    }
-    console.log('WOW', state.score);
-
+    if(state.score < 100) return 'NORMAL';
     return Math.random() > 0.9 ? 'MOVING' : 'NORMAL';
 }
 
@@ -279,15 +273,15 @@ function startGame() {
 }
 
 function loadScores() {
-    const highscore = local.get('doodle-highscore') || 0;
-    const latestScore = local.get('doodle-latest-score') || 0;
+    const highscore = local.get('dude-highscore') || 0;
+    const latestScore = local.get('dude-latest-score') || 0;
     els.highscore.textContent = highscore;
     els.latestScore.textContent = latestScore;
 }
 
 function setupSound() {
-    const musicVolume = local.get('doodle-music-volume') || 0.5;
-    const sfxVolume = local.get('doodle-sfx-volume') || 0.5;
+    const musicVolume = local.get('dude-music-volume') || 0.5;
+    const sfxVolume = local.get('dude-sfx-volume') || 0.5;
     musicService.setMusicVolume(musicVolume);
     musicService.setSFXVolume(sfxVolume);
     els.musicSlider.value = musicVolume;
@@ -335,7 +329,6 @@ function init() {
     addEventListener('click', clickHandler);
 
     addEventListener('touchstart', (e) => {
-        e.preventDefault();
         if(e.touches[0].clientX < window.innerWidth / 2) {
             keys.left.isPressed = true;
         } else {
@@ -343,8 +336,7 @@ function init() {
         }
     });
 
-    addEventListener('touchend', (e) => {
-        e.preventDefault();
+    addEventListener('touchend', () => {
         keys.left.isPressed = false;
         keys.right.isPressed = false;
     });
@@ -363,13 +355,13 @@ function init() {
 
     els.musicSlider.addEventListener('input', e => {
         musicService.setMusicVolume(e.target.value);
-        local.save('doodle-music-volume', e.target.value);
+        local.save('dude-music-volume', e.target.value);
     });
 
     els.sfxSlider.addEventListener('input', e => {
         musicService.setSFXVolume(e.target.value);
         musicService.play({ channelType: 'jump' });
-        local.save('doodle-sfx-volume', e.target.value);
+        local.save('dude-sfx-volume', e.target.value);
     });
 }
 

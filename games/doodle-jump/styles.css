@@ -5,9 +5,11 @@
     box-sizing: border-box;
 }
 
+html,
 body {
     margin: 0;
     padding: 0;
+    touch-action: none;
 }
 
 button {
@@ -50,6 +52,7 @@ button:focus {
     font-family: "Press Start 2P", cursive;
     height: 100vh;
     background-color: var(--c-desk-green);
+    touch-action: auto;
 }
 
 .top-gui {
