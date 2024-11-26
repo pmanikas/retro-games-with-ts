@@ -227,7 +227,8 @@ function animate() {
 
     platforms.forEach((platform, i) => {
         if(player.velocity.y < 0 && player.position.y < els.canvas.height * 3 / 4) {
-            platform.position.y += (SPEED + Math.abs(player.velocity.y * 1.5));
+            const percentage =  100 - ((player.position.y / els.canvas.height) * 100);
+            platform.position.y += (SPEED + SPEED * (percentage / 100) + Math.abs(player.velocity.y * 1.5));
         }
         if(
             player.velocity.y >= 0 &&
