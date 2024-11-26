@@ -333,6 +333,28 @@ function init() {
     addEventListener('keydown', keyDownHandler);
     addEventListener('keyup', keyUpHandler);
     addEventListener('click', clickHandler);
+    addEventListener('touchstart', (e) => {
+        if(e.touches[0].clientX < window.innerWidth / 2) {
+            keys.left.isPressed = true;
+        } else {
+            keys.right.isPressed = true;
+        }
+    });
+    addEventListener('touchend', () => {
+        keys.left.isPressed = false;
+        keys.right.isPressed = false;
+    });
+    // when moving the finger, the touchmove event is triggered
+    addEventListener('touchmove', (e) => {
+        if(e.touches[0].clientX < window.innerWidth / 2) {
+            keys.left.isPressed = true;
+            keys.right.isPressed = false;
+        } else {
+            keys.right.isPressed = true;
+            keys.left.isPressed = false;
+        }
+    });
+
 
     els.musicSlider.addEventListener('input', e => {
         musicService.setMusicVolume(e.target.value);
