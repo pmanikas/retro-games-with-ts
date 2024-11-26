@@ -33,8 +33,8 @@ export default class Player {
 
         image.onload = () => {
             this.image = image;
-            this.width = image.width / 4;
-            this.height = image.height / 4;
+            this.width = image.width / 4 - 1;
+            this.height = image.height / 4 - 2;
             this.position = {
                 x: 0,
                 y: this.ctx.canvas.height - this.height - SPACING
