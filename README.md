@@ -78,6 +78,13 @@ Contributions are welcome! Feel free to:
 - Space to shoot
 - Esc to pause
 
+### Dude Jump
+
+- Left/Right arrows to move
+- Left/Right side of the touch screen to move
+- Auto jump
+- Esc/Leave to pause
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
