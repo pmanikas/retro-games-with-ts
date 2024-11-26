@@ -78,8 +78,8 @@ button:focus {
 }
 
 .header {
-    font-size: 4rem;
-    max-width: 500px;
+    font-size: 2rem;
+    max-width: 250px;
     line-height: 1.25;
     text-align: center;
     margin: 0 auto;
@@ -176,4 +176,11 @@ input[type="range"] {
         repeat,
         repeat,
         no-repeat;
+}
+
+@media (min-width: 600px) {
+    .header {
+        font-size: 4rem;
+        max-width: 500px;
+    }
 }
