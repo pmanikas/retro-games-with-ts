@@ -333,8 +333,9 @@ function init() {
     addEventListener('keydown', keyDownHandler);
     addEventListener('keyup', keyUpHandler);
     addEventListener('click', clickHandler);
-    addEventListener('touchstart', (e) => {
 
+    addEventListener('touchstart', (e) => {
+        e.preventDefault();
         if(e.touches[0].clientX < window.innerWidth / 2) {
             keys.left.isPressed = true;
         } else {
@@ -342,7 +343,8 @@ function init() {
         }
     });
 
-    addEventListener('touchend', () => {
+    addEventListener('touchend', (e) => {
+        e.preventDefault();
         keys.left.isPressed = false;
         keys.right.isPressed = false;
     });
