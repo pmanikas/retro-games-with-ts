@@ -18,6 +18,8 @@ This is a collection of classic arcade games rebuilt using JavaScript and TypeSc
 - [Pong](./games/pong) - The classic table tennis-themed arcade game from 1972
 - [Snake](./games/snake) - The famous Nokia-popularized game of growing serpents
 - [Space Invaders](./games/space-invaders) - The iconic shoot 'em up arcade game from 1978
+- [Dude Jump](./games/dude-jump) - A simple endless runner game with a jumping dude
+- [Tetris](./games/tetris) - The legendary tile-matching puzzle game from 1984
 
 ## Features
 
@@ -62,7 +64,7 @@ Contributions are welcome! Feel free to:
 - Fix bugs
 - Enhance documentation
 
-## Game Controls
+## Game Features
 
 ### Pong
 
@@ -84,6 +86,12 @@ Contributions are welcome! Feel free to:
 - Left/Right side of the touch screen to move
 - Auto jump
 - Esc/Leave to pause
+
+### Tetris
+
+- Left/Right arrows to move
+- Up arrow to rotate
+- Down arrow to speed up
 
 ## License
 
