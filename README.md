@@ -9,7 +9,7 @@ This is a collection of classic arcade games rebuilt using JavaScript and TypeSc
 - [Getting Started](#getting-started)
 - [Tech Stack](#tech-stack)
 - [Contributing](#contributing)
-- [Game Controls](#game-controls)
+- [Game Features](#game-features)
 - [License](#license)
 - [Acknowledgments](#acknowledgments)
 
