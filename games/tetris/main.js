@@ -1,5 +1,5 @@
 // CONFIG
-import { SCALE, TICK_MS, WIDTH_SIZE, HEIGHT_SIZE } from './config/globals.js';
+import { SCALE, TICK_MS, WIDTH_SIZE, HEIGHT_SIZE, PREFIX } from './config/globals.js';
 import { TILE_COLORS, BG_LIGHT_COLOR } from './config/theme.js';
 import tiles from './config/tiles.js';
 
@@ -13,6 +13,7 @@ import Player from './nodes/Player.js';
 
 // UTILITIES
 import { getRandomItemFromArray, generateMatrix } from './../utilities/arrays.js';
+import localSave from './../utilities/browser-storage.js';
 
 const canvas = document.querySelector('[data-canvas]');
 const previewNextCanvas = document.querySelector('[data-preview-next-canvas]');
@@ -76,6 +77,12 @@ const actions = {
         state.nextTile = null;
         musicService.playMusic({ track: 'game', speed: 0.75 });
     },
+    resetScore() {
+        localSave.delete(`${PREFIX}highscore`);
+        localSave.delete(`${PREFIX}latestScore`);
+        state.score = 0;
+        updateScore();
+    }
 };
 
 function getNewTile() {
@@ -141,11 +148,6 @@ function mergeMatrixToMatrix(matrixFrom, matrixTo) {
     });
 }
 
-function showScore() {
-    document.querySelector('[data-score]').textContent = state.score;
-    document.querySelector('[data-lines]').textContent = state.lines;
-}
-
 function checkForFullRows() {
     let rowCount = 1;
     for(let y = arena.length - 1; y > 0; y--) {
@@ -153,11 +155,13 @@ function checkForFullRows() {
             const row = arena.splice(y, 1)[0].fill(0);
             arena.unshift(row);
             y++;
-            state.score += rowCount * 10;
+            state.score += Math.pow(rowCount * 10, 2);
             state.lines += rowCount;
             rowCount *= 2;
             state.difficulty = Math.floor(state.lines / 10);
             musicService.playSFX({ track: 'collapse' });
+
+            updateScore();
         }
     }
 }
@@ -217,7 +221,6 @@ function animate(time = 0) {
 
     detectCollisions();
     draw();
-    showScore();
 }
 
 function clickHandler({ target }) {
@@ -266,6 +269,23 @@ function setSFXVolume(e) {
     musicService.playSFX({ track: 'rotate', volume: e.target.value });
 }
 
+function updateScore() {
+    const current = state.score;
+    const latest = current || localSave.get(`${PREFIX}latestScore`) || 0;
+    let highest = localSave.get(`${PREFIX}highscore`) || 0;
+
+    if(current > highest) {
+        localSave.save(`${PREFIX}highscore`, current);
+        highest = current;
+    }
+
+    localSave.save(`${PREFIX}latestScore`, current);
+
+    document.querySelectorAll('[data-text-current-score]').forEach(el => el.textContent = current);
+    document.querySelectorAll('[data-text-highscore]').forEach(el => el.textContent = highest);
+    document.querySelectorAll('[data-text-latest-score]').forEach(el => el.textContent = latest);
+}
+
 function init () {
     canvas.width = SCALE * WIDTH_SIZE;
     canvas.height = SCALE * HEIGHT_SIZE;
@@ -277,6 +297,8 @@ function init () {
     previewCtx.scale(SCALE, SCALE);
 
     viewService.showView('menu');
+
+    updateScore();
 
     state.nextTile = getNewTile();
     player.tile = getNewTile();

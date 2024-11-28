@@ -31,6 +31,9 @@
                             <button class="button" data-button="settings">
                                 Settings
                             </button>
+                            <button class="button" data-button="highscore">
+                                Highscore
+                            </button>
                             <button class="button" data-button="credits">
                                 Credits
                             </button>
@@ -104,6 +107,19 @@
                             </button>
                         </div>
                     </div>
+                    <div class="view highscore hidden" data-view="highscore">
+                        <div class="view-content">
+                            <h1 class="header">Highscore</h1>
+                            <p class="text">Latest: <span data-text-latest-score>0</span></p>
+                            <p class="text">Highest: <span data-text-highscore>0</span></p>
+                            <button class="button" data-action="resetScore">
+                                Reset
+                            </button>
+                            <button class="button" data-action="menu">
+                                ⬅︎ Back
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <div class="right">
                     <div class="next-tile">
@@ -124,8 +140,8 @@
                         </ul>
                     </div>
                     <div class="score">
-                        <div>Score: <span data-score>0</span></div>
-                        <div>Lines: <span data-lines>0</span></div>
+                        <div>Score: <span data-text-current-score>0</span></div>
+                        <div>Highscore: <span data-text-highscore>0</span></div>
                     </div>
                 </div>
             </div>
