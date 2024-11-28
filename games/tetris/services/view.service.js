@@ -41,6 +41,12 @@ class ViewService {
         this.#currentView = view;
 
         document.querySelector(`[data-view="${view}"]`).classList.remove('hidden');
+
+        console.log({
+            currentView: this.#currentView,
+            previousView: this.#previousView,
+        });
+
     }
 }
 

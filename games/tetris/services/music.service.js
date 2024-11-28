@@ -2,14 +2,27 @@ class MusicService {
     static instance = null;
 
     #tracks = {
-        music: './assets/sounds/tetris-reversed.mp3',
-        rotate: './assets/sounds/rotate.wav',
+        music: {
+            game: './assets/sounds/tetris-reversed.mp3',
+            menu: './assets/sounds/menu.mp3',
+        },
+        sfx: {
+            move: 'assets/sounds/rotate.mp3',
+            collapse: 'assets/sounds/collapse.wav',
+            ground: 'assets/sounds/ground.wav',
+            rotate: 'assets/sounds/move.mp3',
+        }
     };
 
-    #channels = {};
+    #channels = {
+        music: null,
+        sfx: {}
+    };
 
     #musicVolume = 0.5;
     #sfxVolume = 0.5;
+
+    isCurrentlyPlaying = false;
 
     constructor() {
         if (MusicService.instance) {
@@ -20,99 +33,66 @@ class MusicService {
         MusicService.instance = this;
     }
 
-    static getInstance() {
-        if (!MusicService.instance) {
-            MusicService.instance = new MusicService();
-        }
-        return MusicService.instance;
-    }
-
     #initializeChannels() {
-        try {
-            for (const [key, path] of Object.entries(this.#tracks)) {
-                const audio = new Audio();
-                audio.src = path;
-                audio.preload = 'auto';
-                audio.addEventListener('error', (e) => {
-                    console.error(`Error loading audio ${key}:`, e);
-                });
-                this.#channels[key] = audio;
-            }
-        } catch (error) {
-            console.error('Failed to initialize audio channels:', error);
-            throw new Error('Audio initialization failed');
+        this.#channels.music = new Audio();
+        this.#channels.music.volume = this.#musicVolume;
+
+        for (const key in this.#tracks.sfx) {
+            this.#channels.sfx[key] = new Audio();
+            this.#channels.sfx[key].src = this.#tracks.sfx[key];
+            this.#channels.sfx[key].volume = this.#sfxVolume;
         }
     }
 
-    play({ channelType, loop = false, speed = 1 }) {
-        this.#validateChannelType(channelType);
+    playMusic({ track, loop = true, speed = 1 }) {
+        if (!this.#tracks.music[track]) throw new Error(`Track does not exist: ${track}`);
 
-        const channel = this.#channels[channelType];
-        try {
-            channel.currentTime = 0;
-            channel.loop = loop;
-            channel.volume = this.#getVolumeForChannel(channelType);
-            channel.playbackRate = this.#clampPlaybackRate(speed);
+        if(this.isCurrentlyPlaying) this.stopMusic();
 
-            const playPromise = channel.play();
-            if (playPromise) {
-                playPromise.catch(error => {
-                    console.error(`Error playing ${channelType}:`, error);
-                });
-            }
-        } catch (error) {
-            console.error(`Failed to play ${channelType}:`, error);
-            throw new Error(`Playback failed for ${channelType}`);
-        }
+        this.#channels.music.src = this.#tracks.music[track];
+        this.#channels.music.loop = loop;
+        this.#channels.music.playbackRate = speed;
+        this.#channels.music.play();
+        this.isCurrentlyPlaying = true;
     }
 
-    pause({ channelType }) {
-        this.#validateChannelType(channelType);
-        this.#channels[channelType].pause();
+    stopMusic() {
+        this.#channels.music.pause();
+        this.isCurrentlyPlaying = false;
     }
 
-    stop({ channelType }) {
-        this.#validateChannelType(channelType);
-        const channel = this.#channels[channelType];
-        channel.pause();
-        channel.currentTime = 0;
+    playSFX({ track }) {
+        if (!this.#tracks.sfx[track]) throw new Error(`SFX does not exist: ${track}`);
+
+        console.log(this.#channels.sfx[track]);
+
+        this.#channels.sfx[track].currentTime = 0;
+        this.#channels.sfx[track].play();
     }
 
-    isPlaying({ channelType }) {
-        this.#validateChannelType(channelType);
-        return !this.#channels[channelType].paused;
+    stopSFX({ track }) {
+        if (!this.#tracks.sfx[track]) throw new Error(`SFX does not exist: ${track}`);
+
+        this.#channels.sfx[track].pause();
     }
 
     setMusicVolume(volume) {
-        this.#musicVolume = this.#clampVolume(volume);
-        this.#channels.music.volume = this.#musicVolume;
+        this.#musicVolume = volume;
+        this.#channels.music.volume = volume;
     }
 
     setSFXVolume(volume) {
-        this.#sfxVolume = this.#clampVolume(volume);
-        Object.entries(this.#channels).forEach(([key, channel]) => {
-            if (key !== 'music') {
-                channel.volume = this.#sfxVolume;
-            }
-        });
-    }
-
-    #validateChannelType(channelType) {
-        if (!this.#channels[channelType]) {
-            throw new Error(`Invalid channel type: ${channelType}`);
+        this.#sfxVolume = volume;
+        for (const key in this.#channels.sfx) {
+            this.#channels.sfx[key].volume = volume;
         }
     }
 
-    #getVolumeForChannel(channelType) {
-        return channelType === 'music' ? this.#musicVolume : this.#sfxVolume;
-    }
-
-    #clampVolume(volume) {
-        return Math.max(0, Math.min(1, volume));
-    }
-
-    #clampPlaybackRate(rate) {
-        return Math.max(0.25, Math.min(4, rate));
+    stopAll() {
+        this.stopMusic();
+        for (const key in this.#channels.sfx) {
+            this.stopSFX({ sfx: key });
+        }
     }
 }
 

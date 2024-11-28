@@ -1,7 +1,10 @@
+import MusicService from './../services/music.service.js';
+
 export default class Player {
     constructor() {
         this.position = { x: 0, y: 0 };
         this.tile = null;
+        this.musicService = new MusicService();
     }
 
     moveLeft() {
@@ -21,6 +24,7 @@ export default class Player {
     }
 
     rotate() {
+        this.musicService.playSFX({ track: 'rotate' });
         this.tile = this.tile[0].map((_, index) => this.tile.map(row => row[index]).reverse());
     }
 

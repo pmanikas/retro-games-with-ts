@@ -1,4 +1,3 @@
-
 import { SCALE, TICK_MS, WIDTH_SIZE, HEIGHT_SIZE } from './config/globals.js';
 import { TILE_COLORS, BG_LIGHT_COLOR } from './config/theme.js';
 import tiles from './config/tiles.js';
@@ -31,30 +30,35 @@ let gravityCounter = 0;
 
 const actions = {
     play() {
-        console.log('play');
-
-        state.currentState = 'playing';
-        musicService.play({ channelType: 'music', loop: true });
-    },
-    pause() {
-        state.currentState = 'paused';
-        musicService.pause({ channelType: 'music' });
-    },
-    resume() {
-        state.currentState = 'playing';
-        musicService.play({ channelType: 'music', loop: true });
-    },
-    restart() {
         state.score = 0;
         state.level = 0;
         state.lines = 0;
         state.isDropping = false;
-        state.currentState = 'playing';
         player.tile = getNewTile();
         resetPlayerPosition();
         arena = generateMatrix(canvas.width / SCALE, canvas.height / SCALE);
         updateScore();
-        musicService.play({ channelType: 'music', loop: true });
+        state.currentState = 'playing';
+        musicService.playMusic({ track: 'game' });
+    },
+    pause() {
+        state.currentState = 'paused';
+    },
+    resume() {
+        state.currentState = 'playing';
+    },
+    restart() {
+        this.play();
+    },
+    start () {
+
+        state.currentState = 'start';
+        musicService.playMusic({ track: 'menu' });
+    },
+    gameOver () {
+        viewService.showView('gameover');
+        state.currentState = 'gameover';
+        musicService.playMusic({ track: 'game', speed: 0.5 });
     },
 };
 
@@ -113,13 +117,9 @@ function checkForFullRows() {
             state.lines += rowCount;
             rowCount *= 2;
             updateScore();
+            musicService.playSFX({ track: 'collapse' });
         }
     }
-}
-
-function handleGameOver() {
-    state.currentState = 'gameover';
-    musicService.play({ channelType: 'music', speed: 0.5, loop: true });
 }
 
 function detectCollisions() {
@@ -143,11 +143,14 @@ function detectCollisions() {
                         resetPlayerPosition();
                         checkForFullRows();
                         state.isDropping = false;
+                        musicService.playSFX({ track: 'ground' });
                     }
                 }
             }
             catch(e) {
-                handleGameOver();
+                console.log(e);
+
+                actions.gameOver();
             }
         });
     });
@@ -172,19 +175,52 @@ function animate(time = 0) {
     }
 
     detectCollisions();
-
     draw();
 }
 
-function keyUpHandler({ key }) {
-    switch(key) {
+function keyUpHandler(e) {
+    e.preventDefault();
+    switch(e.key) {
     case ' ':
         state.isDropping = false;
         break;
     }
 }
 
+function keyDownHandler(e) {
+    e.preventDefault();
+    switch(e.key) {
+    case 'w':
+        // FOR TESTING - REMOVE LATER
+        player.moveUP();
+        musicService.playSFX({ track: 'move' });
+        break;
+    case 'ArrowLeft':
+        player.moveLeft();
+        musicService.playSFX({ track: 'move' });
+        break;
+    case 'ArrowRight':
+        player.moveRight();
+        musicService.playSFX({ track: 'move' });
+        break;
+    case 'ArrowDown':
+        player.moveDown();
+        musicService.playSFX({ track: 'move' });
+        break;
+    case ' ':
+        state.isDropping = true;
+        break;
+    case 'ArrowUp':
+        player.rotate();
+        break;
+    }
+}
+
 function clickHandler({ target }) {
+    if(!musicService.isCurrentlyPlaying) {
+        musicService.playMusic({ track: 'menu', loop: true });
+    }
+
     const view = target.dataset.button ? target.dataset.button : '';
     if(view) viewService.showView(view);
 
@@ -208,33 +244,7 @@ function init () {
 
     animate();
 
-    window.addEventListener('keydown', (e) => {
-        if(!musicService.isPlaying({ channelType: 'music' })) {
-            musicService.play({ channelType: 'music', loop: true });
-        }
-        switch(e.key) {
-        case 'w':
-            // FOR TESTING - REMOVE LATER
-            player.moveUP();
-            break;
-        case 'ArrowLeft':
-            player.moveLeft();
-            break;
-        case 'ArrowRight':
-            player.moveRight();
-            break;
-        case 'ArrowDown':
-            player.moveDown();
-            break;
-        case ' ':
-            state.isDropping = true;
-            break;
-        case 'ArrowUp':
-            player.rotate();
-            break;
-        }
-    });
-
+    window.addEventListener('keydown', keyDownHandler);
     window.addEventListener('keyup', keyUpHandler);
     window.addEventListener('click', clickHandler);
 }
