@@ -19,7 +19,7 @@ export default class Player {
         this.position.y += 1;
     }
 
-    moveUP() {
+    moveUp() {
         this.position.y -= 1;
     }
 
@@ -30,6 +30,11 @@ export default class Player {
 
     setTile({ tile = [] }) {
         this.tile = tile;
+    }
+
+    reset() {
+        this.position = { x: 0, y: 0 };
+        this.tile = null;
     }
 
     get left () {

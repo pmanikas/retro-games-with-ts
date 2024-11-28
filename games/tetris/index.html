@@ -18,7 +18,7 @@
                 <div class="left">
                     <canvas class="canvas" data-canvas data-view="play"></canvas>
                     <div class="view play" hidden data-view="play"></div>
-                    <div class="view menu hidden" data-view="start">
+                    <div class="view menu hidden" data-view="menu">
                         <div class="view-content">
                             <h1 class="header">Tetris</h1>
                             <button
@@ -39,16 +39,13 @@
                     <div class="view pause hidden" data-view="pause">
                         <div class="view-content">
                             <h1 class="header">Pause</h1>
-                            <button class="button" data-button="play">
+                            <button class="button" data-action="pause">
                                 Resume
                             </button>
-                            <button class="button" data-button="restart">
+                            <button class="button" data-action="restart">
                                 Restart
                             </button>
-                            <button class="button" data-button="settings">
-                                Settings
-                            </button>
-                            <button class="button" data-button="start">
+                            <button class="button" data-action="menu">
                                 Main Menu
                             </button>
                         </div>
@@ -59,7 +56,7 @@
                             <button class="button" data-action="restart">
                                 Restart
                             </button>
-                            <button class="button" data-button="start" data-action="start">
+                            <button class="button" data-action="menu">
                                 Main Menu
                             </button>
                         </div>
@@ -68,30 +65,32 @@
                         <div class="view-content">
                             <h1 class="header">Settings</h1>
                             <div class="options">
-                                <h2 class="category">Volume</h2>
-                                <label for="music"></label>
-                                <input
-                                    id="music"
-                                    class="slider"
-                                    type="range"
-                                    min="0"
-                                    max="1"
-                                    step="0.1"
-                                    value="0.5"
-                                    data-slider="music"
-                                />
-                                <label for="sfx"></label>
-                                <input
-                                    id="sfx"
-                                    type="range"
-                                    min="0"
-                                    max="1"
-                                    step="0.1"
-                                    value="0.5"
-                                    data-slider="sfx"
-                                />
+                                <div class="volume-options">
+                                    <div class="music-volume">
+                                        <p>Music</p>
+                                        <input
+                                            type="range"
+                                            min="0"
+                                            max="1"
+                                            step="0.1"
+                                            value="0.5"
+                                            data-input-music-volume
+                                        />
+                                    </div>
+                                    <div class="sfx-volume">
+                                        <p>SFX</p>
+                                        <input
+                                            type="range"
+                                            min="0"
+                                            max="1"
+                                            step="0.1"
+                                            value="0.5"
+                                            data-input-sfx-volume
+                                        />
+                                    </div>
+                                </div>
                             </div>
-                            <button class="button" data-button="start">
+                            <button class="button" data-action="menu">
                                 ⬅︎ Back
                             </button>
                         </div>
@@ -100,15 +99,34 @@
                         <div class="view-content">
                             <h1 class="header">Credits</h1>
                             <p class="text">Created by Pantelis Manikas</p>
-                            <button class="button" data-button="start">
+                            <button class="button" data-action="menu">
                                 ⬅︎ Back
                             </button>
                         </div>
                     </div>
                 </div>
                 <div class="right">
-                    <canvas class="preview-canvas" data-preview-canvas></canvas>
-                    <div class="score">Score: <span data-score>0</span></div>
+                    <div class="next-tile">
+                        <p>Next tile:</p>
+                        <div class="next-tile-container">
+                            <canvas class="preview-canvas" data-preview-next-canvas></canvas>
+                        </div>
+                    </div>
+                    <div class="controls">
+                        <p>Controls:</p>
+                        <ul>
+                            <li>Move left: ←</li>
+                            <li>Move right: →</li>
+                            <li>Rotate: ↑</li>
+                            <li>Soft drop: ↓</li>
+                            <li>Hard drop: Space</li>
+                            <li>Pause: P</li>
+                        </ul>
+                    </div>
+                    <div class="score">
+                        <div>Score: <span data-score>0</span></div>
+                        <div>Lines: <span data-lines>0</span></div>
+                    </div>
                 </div>
             </div>
         </div>

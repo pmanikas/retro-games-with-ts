@@ -1,27 +1,39 @@
+// CONFIG
 import { SCALE, TICK_MS, WIDTH_SIZE, HEIGHT_SIZE } from './config/globals.js';
 import { TILE_COLORS, BG_LIGHT_COLOR } from './config/theme.js';
 import tiles from './config/tiles.js';
-import Player from './nodes/Player.js';
-import { getRandomItemFromArray, generateMatrix } from './../utilities/arrays.js';
+
+// SERVICES
 import MusicService from './services/music.service.js';
 import ViewService from './services/view.service.js';
+import ControllerService from './services/controller.service.js';
 
-// can be changed to increase difficulty based on elapsed time or score
-const DIFFICULTY = 1;
+// NODES
+import Player from './nodes/Player.js';
+
+// UTILITIES
+import { getRandomItemFromArray, generateMatrix } from './../utilities/arrays.js';
 
 const canvas = document.querySelector('[data-canvas]');
-const ctx = canvas.getContext('2d');
+const previewNextCanvas = document.querySelector('[data-preview-next-canvas]');
 
-const player = new Player();
+const ctx = canvas.getContext('2d');
+const previewCtx = previewNextCanvas.getContext('2d');
+
 const musicService = new MusicService();
 const viewService = new ViewService();
+const controller = new ControllerService();
+
+const player = new Player();
 
 const state = {
     score: 0,
     level: 0,
     lines: 0,
     isDropping: false,
-    currentState: 'start', // start, playing, paused, gameover
+    difficulty: 1,
+    currentState: 'menu', // menu, playing, paused, gameover
+    nextTile: null,
 };
 
 let arena = null;
@@ -30,34 +42,38 @@ let gravityCounter = 0;
 
 const actions = {
     play() {
-        state.score = 0;
-        state.level = 0;
-        state.lines = 0;
-        state.isDropping = false;
+        clearGame();
         player.tile = getNewTile();
-        resetPlayerPosition();
+        state.nextTile = getNewTile();
         arena = generateMatrix(canvas.width / SCALE, canvas.height / SCALE);
-        updateScore();
         state.currentState = 'playing';
         musicService.playMusic({ track: 'game' });
     },
     pause() {
-        state.currentState = 'paused';
+        if(state.currentState === 'paused') {
+            state.currentState = 'playing';
+            viewService.showView('play');
+        }else if(state.currentState === 'playing') {
+            state.currentState = 'paused';
+            viewService.showView('pause');
+        }
     },
     resume() {
         state.currentState = 'playing';
     },
     restart() {
+        viewService.showView('play');
         this.play();
     },
-    start () {
-
-        state.currentState = 'start';
-        musicService.playMusic({ track: 'game' });
+    menu () {
+        clearGame();
+        state.currentState = 'menu';
+        viewService.showView('menu');
     },
     gameOver () {
         viewService.showView('gameover');
         state.currentState = 'gameover';
+        state.nextTile = null;
         musicService.playMusic({ track: 'game', speed: 0.75 });
     },
 };
@@ -68,6 +84,26 @@ function getNewTile() {
 
 function resetPlayerPosition() {
     player.position = { x: (canvas.width / SCALE / 2) - (Math.floor(player.tile.length / 2)) , y: 0 };
+}
+
+function drawPreviewNextTile() {
+    previewNextCanvas.width = state.nextTile[0].length * SCALE;
+    previewNextCanvas.height = state.nextTile.length * SCALE;
+
+    previewCtx.scale(SCALE, SCALE);
+    previewCtx.clearRect(0, 0, previewNextCanvas.width, previewNextCanvas.height);
+
+    state.nextTile?.forEach((row, y) => {
+        row.forEach((value, x) => {
+            if(value) {
+                previewCtx.fillStyle = TILE_COLORS[value - 1] || 'white';
+                previewCtx.strokeStyle = BG_LIGHT_COLOR;
+                previewCtx.lineWidth = 0.05;
+                previewCtx.fillRect(x, y, 1, 1);
+                previewCtx.strokeRect(x, y, 1, 1);
+            }
+        });
+    });
 }
 
 function drawGrid({ grid, offset = { x: 0, y: 0 } }) {
@@ -92,6 +128,9 @@ function draw () {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawGrid({ grid: arena, offset: { x: 0, y: 0 } });
     drawGrid({ grid: player.tile, offset: player.position });
+
+    previewCtx.clearRect(0, 0, previewNextCanvas.width, previewNextCanvas.height);
+    drawPreviewNextTile();
 }
 
 function mergeMatrixToMatrix(matrixFrom, matrixTo) {
@@ -102,8 +141,9 @@ function mergeMatrixToMatrix(matrixFrom, matrixTo) {
     });
 }
 
-function updateScore() {
+function showScore() {
     document.querySelector('[data-score]').textContent = state.score;
+    document.querySelector('[data-lines]').textContent = state.lines;
 }
 
 function checkForFullRows() {
@@ -116,7 +156,7 @@ function checkForFullRows() {
             state.score += rowCount * 10;
             state.lines += rowCount;
             rowCount *= 2;
-            updateScore();
+            state.difficulty = Math.floor(state.lines / 10);
             musicService.playSFX({ track: 'collapse' });
         }
     }
@@ -125,33 +165,34 @@ function checkForFullRows() {
 function detectCollisions() {
     player.tile.forEach((row, y) => {
         row.forEach((value, x) => {
-            try {
-                if(value) {
-                    // check if the player tile hits the walls
-                    if(player.position.x + x < 0 || player.position.x + x >= arena[0].length) {
-                        player.position.x -= player.position.x + x < 0 ? -1 : 1;
-                    }
+            if(value) {
+                // checks if the player tile hits the walls
+                if(player.position.x + x < 0 || player.position.x + x >= arena[0].length) {
+                    player.position.x -= player.position.x + x < 0 ? -1 : 1;
+                }
 
-                    // check if the player tile hits the floor
-                    if(
-                        (player.position.y + y >= arena.length) ||
+                // checks if the player tile hits the ceiling
+                if(player.position.y + y < 0) {
+                    player.position.y += 1;
+                    actions.gameOver();
+                }
+
+                // checks if the player tile hits the floor
+                if(
+                    (player.position.y + y >= arena.length) ||
                         (arena[y + player.position.y] && arena[y + player.position.y][x + player.position.x])
-                    ) {
-                        player.position.y -= 1;
-                        mergeMatrixToMatrix(player.tile, arena);
-                        player.tile = getNewTile();
-                        resetPlayerPosition();
-                        checkForFullRows();
-                        state.isDropping = false;
-                        musicService.playSFX({ track: 'ground' });
-                    }
+                ) {
+                    player.position.y -= 1;
+                    mergeMatrixToMatrix(player.tile, arena);
+                    player.tile = JSON.parse(JSON.stringify(state.nextTile));
+                    state.nextTile = getNewTile();
+                    resetPlayerPosition();
+                    checkForFullRows();
+                    state.isDropping = false;
+                    musicService.playSFX({ track: 'ground' });
                 }
             }
-            catch(e) {
-                console.log(e);
 
-                actions.gameOver();
-            }
         });
     });
 }
@@ -165,62 +206,21 @@ function animate(time = 0) {
     lastTime = time;
     gravityCounter += deltaTime;
 
-    if(state.isDropping) {
-        player.moveDown();
-    }
+    const DIFFICULTY = 1 + state.lines / 50;
 
-    if(gravityCounter > (TICK_MS / DIFFICULTY)) {
+    musicService.setMusicSpeed(1 + state.difficulty / 50);
+
+    if(gravityCounter > (TICK_MS / DIFFICULTY) || state.isDropping) {
         player.moveDown();
         gravityCounter = 0;
     }
 
     detectCollisions();
     draw();
-}
-
-function keyUpHandler(e) {
-    e.preventDefault();
-    switch(e.key) {
-    case ' ':
-        state.isDropping = false;
-        break;
-    }
-}
-
-function keyDownHandler(e) {
-    e.preventDefault();
-    switch(e.key) {
-    case 'w':
-        // FOR TESTING - REMOVE LATER
-        player.moveUP();
-        musicService.playSFX({ track: 'move' });
-        break;
-    case 'ArrowLeft':
-        player.moveLeft();
-        musicService.playSFX({ track: 'move' });
-        break;
-    case 'ArrowRight':
-        player.moveRight();
-        musicService.playSFX({ track: 'move' });
-        break;
-    case 'ArrowDown':
-        player.moveDown();
-        musicService.playSFX({ track: 'move' });
-        break;
-    case ' ':
-        state.isDropping = true;
-        break;
-    case 'ArrowUp':
-        player.rotate();
-        break;
-    }
+    showScore();
 }
 
 function clickHandler({ target }) {
-    if(!musicService.isCurrentlyPlaying) {
-        musicService.playMusic({ track: 'game', loop: true });
-    }
-
     const view = target.dataset.button ? target.dataset.button : '';
     if(view) viewService.showView(view);
 
@@ -230,23 +230,67 @@ function clickHandler({ target }) {
     actions[action]();
 }
 
+function handleControls(e) {
+
+    controller.handleKeyDownUp(e);
+
+    if (controller.down.isActive) player.moveDown();
+    else if (controller.left.isActive) player.moveLeft();
+    else if (controller.right.isActive) player.moveRight();
+    // else if (controller.debug.isActive) player.moveUp(); // debug
+    else if (controller.rotate.isActive) player.rotate();
+    else if (controller.space.isActive) state.isDropping = true;
+    else if (controller.pause.isActive) actions.pause();
+}
+
+function clearGame() {
+    player.reset();
+    state.score = 0;
+    state.level = 0;
+    state.lines = 0;
+    state.isDropping = false;
+    state.difficulty = 1;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    previewCtx.clearRect(0, 0, previewNextCanvas.width, previewNextCanvas.height);
+    musicService.stopMusic();
+    musicService.setMusicSpeed(1);
+}
+
+function setMusicVolume(e) {
+    musicService.setMusicVolume(e.target.value);
+    musicService.playSFX({ track: 'rotate', volume: e.target.value });
+}
+
+function setSFXVolume(e) {
+    musicService.setSFXVolume(e.target.value);
+    musicService.playSFX({ track: 'rotate', volume: e.target.value });
+}
+
 function init () {
     canvas.width = SCALE * WIDTH_SIZE;
     canvas.height = SCALE * HEIGHT_SIZE;
 
+    previewNextCanvas.width = SCALE * 4;
+    previewNextCanvas.height = SCALE * 4;
+
     ctx.scale(SCALE, SCALE);
+    previewCtx.scale(SCALE, SCALE);
 
-    viewService.showView('start');
+    viewService.showView('menu');
 
+    state.nextTile = getNewTile();
     player.tile = getNewTile();
+
     resetPlayerPosition();
     arena = generateMatrix(canvas.width / SCALE, canvas.height / SCALE);
 
     animate();
 
-    window.addEventListener('keydown', keyDownHandler);
-    window.addEventListener('keyup', keyUpHandler);
+    window.addEventListener('keydown', handleControls);
+    window.addEventListener('keyup', handleControls);
     window.addEventListener('click', clickHandler);
+    document.querySelector('[data-input-music-volume]').addEventListener('input', setMusicVolume);
+    document.querySelector('[data-input-sfx-volume]').addEventListener('input', setSFXVolume);
 }
 
 addEventListener('DOMContentLoaded', init);

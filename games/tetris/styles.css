@@ -14,6 +14,11 @@ body {
     font-size: 12px;
 }
 
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
 
 button {
     background: none;
@@ -109,6 +114,7 @@ button:focus {
 .view-content {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: var(--s-base);
 }
 
@@ -120,10 +126,34 @@ button:focus {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: center;
+    gap: var(--s-base);
     padding: var(--s-base);
-    width: calc(var(--tile-scale) * 5px);
+    width: 100%;
     background-color: var(--c-light-bg);
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.next-tile-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: calc(var(--tile-scale) * 4px);
+    height: calc(var(--tile-scale) * 4px);
+    background-color: var(--c-light-bg);
+    border: 2px dotted var(--c-bg);
+    box-sizing: content-box;
+}
+
+.score {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--s-base);
+}
+
+.controls {
+
 }
 
 @media screen and (min-width: 768px) {

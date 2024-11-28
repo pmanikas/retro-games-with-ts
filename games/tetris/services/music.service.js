@@ -1,3 +1,6 @@
+import localStorage from '../../utilities/browser-storage.js';
+const PREFIX = 'tetris-';
+
 class MusicService {
     static instance = null;
 
@@ -18,8 +21,8 @@ class MusicService {
         sfx: {}
     };
 
-    #musicVolume = 0.5;
-    #sfxVolume = 0.5;
+    #musicVolume = localStorage.get(`${PREFIX}musicVolume`) || 0.5;
+    #sfxVolume = localStorage.get(`${PREFIX}sfxVolume`) || 0.5;
 
     isCurrentlyPlaying = false;
 
@@ -60,12 +63,12 @@ class MusicService {
         this.isCurrentlyPlaying = false;
     }
 
-    playSFX({ track }) {
+    playSFX({ track, volume = this.#sfxVolume }) {
         if (!this.#tracks.sfx[track]) throw new Error(`SFX does not exist: ${track}`);
 
-        console.log(this.#channels.sfx[track]);
-
         this.#channels.sfx[track].currentTime = 0;
+        this.#channels.sfx[track].volume = volume;
+
         this.#channels.sfx[track].play();
     }
 
@@ -78,10 +81,21 @@ class MusicService {
     setMusicVolume(volume) {
         this.#musicVolume = volume;
         this.#channels.music.volume = volume;
+        localStorage.save(`${PREFIX}musicVolume`, volume);
+    }
+
+    setMusicSpeed(speed) {
+        if(!this.isCurrentlyPlaying) return;
+        if(this.#channels.music.playbackRate === speed) return;
+        this.#channels.music.playbackRate = speed;
     }
 
     setSFXVolume(volume) {
+        console.log({volume});
+
         this.#sfxVolume = volume;
+        localStorage.save(`${PREFIX}sfxVolume`, volume);
+
         for (const key in this.#channels.sfx) {
             this.#channels.sfx[key].volume = volume;
         }
