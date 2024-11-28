@@ -1,4 +1,5 @@
 const BG_COLOR = getComputedStyle(document.documentElement).getPropertyValue('--c-bg') || 'black';
+const BG_LIGHT_COLOR = getComputedStyle(document.documentElement).getPropertyValue('--c-light-bg') || 'white';
 
 const TILE_COLORS = [
     getComputedStyle(document.documentElement).getPropertyValue('--c-tile-1') || 'red',
@@ -10,4 +11,4 @@ const TILE_COLORS = [
     getComputedStyle(document.documentElement).getPropertyValue('--c-tile-7') || 'cyan',
 ];
 
-export { TILE_COLORS, BG_COLOR };
+export { TILE_COLORS, BG_COLOR, BG_LIGHT_COLOR};

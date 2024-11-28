@@ -1,6 +1,6 @@
-const SCALE = 50;
+const SCALE = getComputedStyle(document.documentElement).getPropertyValue('--tile-scale') || 50;
 const TICK_MS = 1000;
-const WIDTH_SIZE = 12;
-const HEIGHT_SIZE = 20;
+const WIDTH_SIZE = getComputedStyle(document.documentElement).getPropertyValue('--s-width') || 12;
+const HEIGHT_SIZE = getComputedStyle(document.documentElement).getPropertyValue('--s-height') || 20;
 
 export { SCALE, TICK_MS, WIDTH_SIZE, HEIGHT_SIZE };
