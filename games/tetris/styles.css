@@ -14,6 +14,14 @@ body {
     font-size: 12px;
 }
 
+a {
+    color: inherit;
+}
+
+a:visited {
+    color: inherit;
+}
+
 ul {
     list-style: none;
     padding: 0;
@@ -53,6 +61,7 @@ button:focus {
     --tile-scale: 20;
     --s-width: 12;
     --s-height: 20;
+    --c-highlight: #fd0;
 }
 
 /* UTILITIES */
@@ -65,7 +74,7 @@ button:focus {
 .button {
     display: inline;
     vertical-align: middle;
-    margin: 0 auto;
+    margin: var(--s-base) auto 0;
     padding: calc(var(--s-base) / 2);
     border-bottom: 2px solid transparent;
 }
@@ -74,6 +83,10 @@ button:focus {
 .button:focus,
 .button:active {
     border-color: var(--c-text);
+}
+
+.link:hover {
+    color: var(--c-highlight);
 }
 
 /* MAIN */
@@ -152,10 +165,21 @@ button:focus {
     gap: var(--s-base);
 }
 
-.controls {
-
+.don {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    padding: var(--s-base);
+    opacity: 0.1;
+    transition: opacity 0.3s;
 }
 
+.don:hover {
+    opacity: 1;
+}
+
+
+/* RESPONSIVE */
 @media screen and (min-width: 768px) {
     :root {
         --tile-scale: 30;
