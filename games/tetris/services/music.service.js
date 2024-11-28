@@ -3,8 +3,7 @@ class MusicService {
 
     #tracks = {
         music: {
-            game: './assets/sounds/tetris-reversed.mp3',
-            menu: './assets/sounds/menu.mp3',
+            game: './assets/sounds/game.mp3',
         },
         sfx: {
             move: 'assets/sounds/rotate.mp3',

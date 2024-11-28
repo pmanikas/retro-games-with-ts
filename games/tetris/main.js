@@ -53,12 +53,12 @@ const actions = {
     start () {
 
         state.currentState = 'start';
-        musicService.playMusic({ track: 'menu' });
+        musicService.playMusic({ track: 'game' });
     },
     gameOver () {
         viewService.showView('gameover');
         state.currentState = 'gameover';
-        musicService.playMusic({ track: 'game', speed: 0.5 });
+        musicService.playMusic({ track: 'game', speed: 0.75 });
     },
 };
 
@@ -218,7 +218,7 @@ function keyDownHandler(e) {
 
 function clickHandler({ target }) {
     if(!musicService.isCurrentlyPlaying) {
-        musicService.playMusic({ track: 'menu', loop: true });
+        musicService.playMusic({ track: 'game', loop: true });
     }
 
     const view = target.dataset.button ? target.dataset.button : '';
