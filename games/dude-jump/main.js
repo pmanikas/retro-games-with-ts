@@ -187,8 +187,8 @@ function clearScores() {
 }
 
 function generateType() {
-    if(state.score < 100) return 'NORMAL';
-    return Math.random() > 0.9 ? 'MOVING' : 'NORMAL';
+    const random = Math.random() * 100;
+    return random < 90 ? 'NORMAL' : random < 97 ? 'MOVING' : 'FRAGILE';
 }
 
 function generateNewPlatform() {
@@ -237,6 +237,13 @@ function animate() {
             player.right >= platform.left &&
             player.left <= platform.right
         ) {
+            if(platform.type === 'FRAGILE') {
+                platform.velocity.y = 1;
+                player.velocity.y = 2;
+                generateNewPlatform();
+                updateScore(30);
+                return;
+            }
             player.jump();
             musicService.play({ channelType: 'jump' });
         }

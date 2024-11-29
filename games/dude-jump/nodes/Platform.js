@@ -1,3 +1,5 @@
+import { drawHatchedRoundRect } from '../../utilities/canvas.js';
+
 const types = {
     NORMAL: 'NORMAL',
     MOVING: 'MOVING',
@@ -11,8 +13,9 @@ const types = {
 // };
 
 // get colors from css variables
-const blueInk = getComputedStyle(document.documentElement).getPropertyValue('--c-ink');
-const redInk = getComputedStyle(document.documentElement).getPropertyValue('--c-red-ink');
+const blue = getComputedStyle(document.documentElement).getPropertyValue('--c-ink');
+const red = getComputedStyle(document.documentElement).getPropertyValue('--c-red-ink');
+const green = getComputedStyle(document.documentElement).getPropertyValue('--c-green');
 
 export default class Platform {
 
@@ -23,16 +26,22 @@ export default class Platform {
         this.height = height;
         this.velocity = { x: type === types.MOVING ? 1 : 0, y: 0 };
         this.isMoving = type === types.MOVING;
-
     }
 
     draw(ctx) {
-        ctx.beginPath();
-        ctx.roundRect(this.position.x, this.position.y, this.width, this.height, 3);
-        ctx.strokeStyle = this.type === types.MOVING ? redInk : blueInk;
-        ctx.lineWidth = 1;
-        ctx.stroke();
-        ctx.closePath();
+        const type = this.type;
+
+        switch(type) {
+        case types.NORMAL:
+            drawHatchedRoundRect({ ctx, position: this.position, width: this.width, height: this.height, radius: 3, color: blue, spacing: 3, hasStroke: true });
+            break;
+        case types.MOVING:
+            drawHatchedRoundRect({ ctx, position: this.position, width: this.width, height: this.height, radius: 3, color: green, spacing: 2, hasStroke: true });
+            break;
+        case types.FRAGILE:
+            drawHatchedRoundRect({ ctx, position: this.position, width: this.width, height: this.height, radius: 3, color: red, spacing: 6, hasStroke: false });
+            break;
+        }
     }
 
     update(ctx) {

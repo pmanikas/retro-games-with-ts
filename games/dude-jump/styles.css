@@ -35,6 +35,7 @@ button:focus {
     --c-transparent-ink: rgb(12 53 96 / 20%);
     --text-color: var(--c-ink);
     --c-desk-green: #67e0a6;
+    --c-green: #00c853;
 }
 
 /* UTILITIES */
