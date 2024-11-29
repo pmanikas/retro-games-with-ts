@@ -1,6 +1,6 @@
 import Snake from './nodes/Snake.js';
 import Fruit from './nodes/Fruit.js';
-import localSave from './../../utilities/browser-storage.js';
+import localSave from './../utilities/browser-storage.js';
 import { SCALE, GAME_SIZE } from './config/global.js';
 import { scoreType, stateType } from './config/enums.js';
 
