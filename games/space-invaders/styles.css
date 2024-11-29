@@ -32,6 +32,10 @@ button:focus {
     --purple: #12124d;
 }
 
+/* UTILITIES */
+.hidden {
+    display: none !important;
+}
 
 /* MAIN */
 .wrapper {
