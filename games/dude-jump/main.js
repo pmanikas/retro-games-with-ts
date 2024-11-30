@@ -161,7 +161,6 @@ function clickHandler(e) {
         .find(([attr]) => e.target.hasAttribute(attr))?.[1];
 
     if (handler) handler();
-    else console.warn('Unhandled button click:', e.target);
 }
 
 function updateScore(value) {
