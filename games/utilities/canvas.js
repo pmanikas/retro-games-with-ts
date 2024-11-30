@@ -1,4 +1,4 @@
-function drawHatchedRoundRect({ ctx, position, width, height, radius, color, spacing = 3, hasStroke = true }) {
+function drawHatchedRoundRect({ ctx, position, width, height, radius, color, spacing = 3, hasStroke = true, type = 'vertical' }) {
     ctx.beginPath();
     ctx.roundRect(position.x, position.y, width, height, radius);
     ctx.save();
@@ -17,8 +17,24 @@ function drawHatchedRoundRect({ ctx, position, width, height, radius, color, spa
 
     for (let i = 0; i < width; i += spacing) {
         ctx.beginPath();
-        ctx.moveTo(position.x + i, position.y);
-        ctx.lineTo(position.x + i, position.y + height);
+
+        switch (type) {
+        case 'horizontal':
+            ctx.moveTo(position.x, position.y + i);
+            ctx.lineTo(position.x + width, position.y + i);
+            break;
+        case 'vertical':
+            ctx.moveTo(position.x + i, position.y);
+            ctx.lineTo(position.x + i, position.y + height);
+            break;
+        case 'diagonal':
+            ctx.moveTo(position.x + i, position.y);
+            ctx.lineTo(position.x + i + height, position.y + height);
+            break;
+        default:
+            break;
+        }
+
         ctx.stroke();
     }
 

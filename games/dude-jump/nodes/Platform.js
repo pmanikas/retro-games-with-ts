@@ -33,10 +33,10 @@ export default class Platform {
 
         switch(type) {
         case types.NORMAL:
-            drawHatchedRoundRect({ ctx, position: this.position, width: this.width, height: this.height, radius: 3, color: blue, spacing: 3, hasStroke: true });
+            drawHatchedRoundRect({ ctx, position: this.position, width: this.width, height: this.height, radius: 3, color: green, spacing: 4, hasStroke: true, type: 'horizontal' });
             break;
         case types.MOVING:
-            drawHatchedRoundRect({ ctx, position: this.position, width: this.width, height: this.height, radius: 3, color: green, spacing: 2, hasStroke: true });
+            drawHatchedRoundRect({ ctx, position: this.position, width: this.width, height: this.height, radius: 3, color: blue, spacing: 10, hasStroke: true, type: 'diagonal' });
             break;
         case types.FRAGILE:
             drawHatchedRoundRect({ ctx, position: this.position, width: this.width, height: this.height, radius: 3, color: red, spacing: 6, hasStroke: false });

@@ -31,7 +31,7 @@ button:focus {
     --base-spacing: 1rem;
     --c-notebook-page: #e4e1cc;
     --c-ink: #0c3560;
-    --c-red-ink: #821414;
+    --c-red-ink: #bd2222;
     --c-transparent-ink: rgb(12 53 96 / 20%);
     --text-color: var(--c-ink);
     --c-desk-green: #67e0a6;
